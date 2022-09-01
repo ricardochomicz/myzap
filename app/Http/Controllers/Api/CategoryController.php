@@ -6,8 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CategoryRequest;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
-use Illuminate\Http\Request;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class CategoryController extends Controller
 {
@@ -32,6 +30,7 @@ class CategoryController extends Controller
     public function store(CategoryRequest $request)
     {
         $category = Category::create($request->all());
+        $category->refresh();
         return new CategoryResource($category);
     }
 
