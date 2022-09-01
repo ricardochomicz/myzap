@@ -17,4 +17,9 @@ class Product extends Model
         'stock',
         'active'
     ];
+
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class);
+    }
 }
