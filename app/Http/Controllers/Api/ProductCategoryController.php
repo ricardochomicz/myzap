@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -25,9 +26,15 @@ class ProductCategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Product $product)
     {
-        //
+        $changed = $product->categories()->sync($request->categories);
+        //retorna array com as categorias incluidas no relacionamento
+        $categoriesAttachedId = $changed['attached'];
+        //consulta todos os ids das categorias que estão no array
+        /** @var Collection $categories */
+        $categories = Category::whereIn('id', $categoriesAttachedId)->get();
+        return $categories->count() ? response()->json($categories, 201) : [];
     }
 
 
