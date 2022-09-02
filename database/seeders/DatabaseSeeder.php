@@ -40,7 +40,16 @@ class DatabaseSeeder extends Seeder
                 $input->save();
                 $product->stock += $input->amount;
                 $product->save();
+            });
 
+        \App\Models\ProductOutput::factory(50)
+            ->make()
+            ->each(function ($output) use ($products) {
+                $product = $products->random();
+                $output->product_id = $product->id;
+                $output->save();
+                $product->stock -= $output->amount;
+                $product->save();
             });
 
         // \App\Models\User::factory()->create([
