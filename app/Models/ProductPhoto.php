@@ -1,10 +1,14 @@
 <?php
+
 declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 
 class ProductPhoto extends Model
 {
@@ -25,9 +29,28 @@ class ProductPhoto extends Model
 
     public static function createWithPhotosFiles(int $productId, array $files): Collection
     {
-        self::uploadFiles($productId, $files);
-        $photos = self::createPhotosModels($productId, $files);
-        return new Collection($photos);
+        try {
+            self::uploadFiles($productId, $files);
+            DB::beginTransaction();
+            $photos = self::createPhotosModels($productId, $files);
+            DB::commit();
+            return new Collection($photos);
+        } catch (\Exception $e) {
+            self::deleteFiles($productId, $files);
+            DB::rollBack();
+            throw $e;
+        }
+    }
+
+    private static function deleteFiles(int $productId, array $files)
+    {
+        foreach ($files as $file) {
+            $path = self::photosPath($productId);
+            $photoPath = "{$path}/{$file->hashName()}";
+            if (file_exists($photoPath)) {
+                File::delete($photoPath);
+            }
+        }
     }
 
     public static function uploadFiles(int $productId, array $files)
@@ -63,7 +86,7 @@ class ProductPhoto extends Model
         return "{$dir}/{$productId}";
     }
 
-   
+
     public function product()
     {
         return $this->belongsTo(Product::class);

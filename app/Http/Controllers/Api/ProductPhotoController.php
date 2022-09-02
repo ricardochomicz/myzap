@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ProductPhotoRequest;
 use App\Http\Resources\ProductPhotoCollection;
 use App\Http\Resources\ProductPhotoResource;
 use App\Models\Product;
@@ -16,9 +17,10 @@ class ProductPhotoController extends Controller
         return new ProductPhotoCollection($product->photos, $product);
     }
 
-    public function store(Request $request, Product $product)
+    public function store(ProductPhotoRequest $request, Product $product)
     {
-        return ProductPhoto::createWithPhotosFiles($product->id, $request->photos);
+        $photos = ProductPhoto::createWithPhotosFiles($product->id, $request->photos);
+        return response()->json(new ProductPhotoCollection($photos, $product), 201);
     }
 
     public function show(Product $product, ProductPhoto $photo)
