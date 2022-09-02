@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ProductCategoryRequest;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -26,7 +27,7 @@ class ProductCategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Product $product)
+    public function store(ProductCategoryRequest $request, Product $product)
     {
         $changed = $product->categories()->sync($request->categories);
         //retorna array com as categorias incluidas no relacionamento
