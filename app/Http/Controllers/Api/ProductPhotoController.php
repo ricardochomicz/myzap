@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ProductPhotoCollection;
 use App\Http\Resources\ProductPhotoResource;
 use App\Models\Product;
 use App\Models\ProductPhoto;
@@ -12,7 +13,7 @@ class ProductPhotoController extends Controller
 {
     public function index(Product $product)
     {
-        return ProductPhotoResource::collection($product->photos);
+        return new ProductPhotoCollection($product->photos, $product);
     }
 
     public function store(Request $request)
