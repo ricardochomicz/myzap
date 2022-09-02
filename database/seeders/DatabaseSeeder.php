@@ -31,6 +31,7 @@ class DatabaseSeeder extends Seeder
                 $product->categories()->attach($categoryId);
             });
 
+        //entrada estoque
         $products = \App\Models\Product::all();
         \App\Models\ProductInput::factory(150)
             ->make()
@@ -42,6 +43,7 @@ class DatabaseSeeder extends Seeder
                 $product->save();
             });
 
+        //saida estoque
         \App\Models\ProductOutput::factory(50)
             ->make()
             ->each(function ($output) use ($products) {
@@ -51,6 +53,10 @@ class DatabaseSeeder extends Seeder
                 $product->stock -= $output->amount;
                 $product->save();
             });
+
+        //upload photos
+        $products->each(function ($product) {
+        });
 
         // \App\Models\User::factory()->create([
         //     'name' => 'Test User',

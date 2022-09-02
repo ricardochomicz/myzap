@@ -5,7 +5,8 @@ use App\Http\Controllers\Api\{
     ProductCategoryController,
     ProductController,
     ProductInputController,
-    ProductOutputController
+    ProductOutputController,
+    ProductPhotoController
 };
 
 use Illuminate\Http\Request;
@@ -15,6 +16,7 @@ Route::group(['as' => 'api.'], function () {
     Route::resource('categories', CategoryController::class, ['except' => ['edit', 'create']]);
     Route::resource('products', ProductController::class, ['except' => ['edit', 'create']]);
     Route::resource('products.categories', ProductCategoryController::class, ['only' => ['index', 'store', 'destroy']]);
+    Route::resource('products.photos', ProductPhotoController::class, ['except' => ['create', 'edit']]);
     Route::resource('inputs', ProductInputController::class, ['only' => ['index', 'store', 'show']]);
     Route::resource('outputs', ProductOutputController::class, ['only' => ['index', 'store', 'show']]);
 });
