@@ -77,12 +77,19 @@ class ProductController extends Controller
         return response()->json([], 204);
     }
 
+    
+    public function restore(Product $product)
+    {
+        $product->restore();
+        return response()->json([], 204);
+    }
+
     /**
      * parametro rota contém trashed=1
      */
     private function onlyTrashedIfRequest(Request $request, Builder $builder)
     {
-        if($request->get('trashed') == 1){
+        if ($request->get('trashed') == 1) {
             $builder = $builder->onlyTrashed();
         }
         return $builder;
