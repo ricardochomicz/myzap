@@ -6,9 +6,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class ProductPhoto extends Model
 {
@@ -40,6 +42,29 @@ class ProductPhoto extends Model
             DB::rollBack();
             throw $e;
         }
+    }
+
+    public function uploadWithPhoto(UploadedFile $file): ProductPhoto
+    {
+        try {
+            self::uploadFiles($this->product_id, [$file]);
+            DB::beginTransaction();
+            $this->deletePhoto($this->file_name);
+            $this->file_name = $file->hashName();
+            $this->save();
+            DB::commit();
+            return $this;
+        } catch (\Exception $e) {
+            self::deleteFiles($this->product_id, [$file]);
+            DB::rollBack();
+            throw $e;
+        }
+    }
+
+    private function deletePhoto($fileName)
+    {
+        $dir = self::photosDir($this->product_id);
+        Storage::disk('public')->delete("{$dir}/{$fileName}");
     }
 
     private static function deleteFiles(int $productId, array $files)
@@ -77,7 +102,7 @@ class ProductPhoto extends Model
     public function getPhotoUrlAttribute()
     {
         $path = self::photosDir($this->product_id);
-        return asset("caminho/{$path}/{$this->file_name}");
+        return asset("storage/{$path}/{$this->file_name}");
     }
 
     public static function photosDir($productId)

@@ -25,15 +25,22 @@ class ProductPhotoController extends Controller
 
     public function show(Product $product, ProductPhoto $photo)
     {
+        $this->hasProductPhoto($photo, $product);
+        return new ProductPhotoResource($photo);
+    }
+
+    public function update(ProductPhotoRequest $request, Product $product, ProductPhoto $photo)
+    {
+        $this->hasProductPhoto($photo, $product);
+        $photo = $photo->uploadWithPhoto($request->photo);
+        return new ProductPhotoResource($photo);
+    }
+
+    private function hasProductPhoto(ProductPhoto $photo, Product $product)
+    {
         if ($photo->product_id != $product->id) {
             abort(404);
         }
-        return $photo;
-    }
-
-    public function update(Request $request, ProductPhoto $productPhoto)
-    {
-        # code...
     }
 
     public function destroy(ProductPhoto $photo)
