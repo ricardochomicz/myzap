@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\Common\OnlyTrashed;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
@@ -14,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 class RouteServiceProvider extends ServiceProvider
 {
+    use OnlyTrashed;
     /**
      * The path to the "home" route for your application.
      *
@@ -41,25 +44,25 @@ class RouteServiceProvider extends ServiceProvider
                 ->group(base_path('routes/web.php'));
         });
 
-        Route::bind('category', function($value){
+        Route::bind('category', function ($value) {
             $collection = Category::whereId($value)->orWhere('slug', $value)->get();
             return $collection->first();
         });
 
-        Route::bind('product', function($value){
+        Route::bind('product', function ($value) {
             $query = Product::query();
-            $query = $this->onlyTrashedIfRequest($query);
+            $request = app(Request::class);
+            $query = $this->onlyTrashedIfRequest($request, $query);
             $collection = $query->whereId($value)->orWhere('slug', $value)->get();
             return $collection->first();
         });
-    }
 
-    private function onlyTrashedIfRequest(Builder $builder)
-    {
-        if(\Request::get('trashed') == 1){
-            $builder = $builder->onlyTrashed();
-        }
-        return $builder;
+        Route::bind('user', function ($value) {
+            $query = User::query();
+            $request = app(Request::class);
+            $query = $this->onlyTrashedIfRequest($request, $query);
+            return $query->find($value);
+        });
     }
 
     /**
@@ -73,6 +76,4 @@ class RouteServiceProvider extends ServiceProvider
             return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
         });
     }
-
-   
 }

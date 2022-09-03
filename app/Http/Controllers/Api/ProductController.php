@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Common\OnlyTrashed;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductRequest;
 use App\Http\Resources\ProductResource;
@@ -11,6 +12,7 @@ use Illuminate\Database\Eloquent\Builder;
 
 class ProductController extends Controller
 {
+    use OnlyTrashed;
     /**
      * Display a listing of the resource.
      *
@@ -24,7 +26,6 @@ class ProductController extends Controller
         $products = $query->paginate();
         return ProductResource::collection($products);
     }
-
 
 
     /**
@@ -83,15 +84,5 @@ class ProductController extends Controller
         $product->restore();
         return response()->json([], 204);
     }
-
-    /**
-     * parametro rota contém trashed=1
-     */
-    private function onlyTrashedIfRequest(Request $request, Builder $builder)
-    {
-        if ($request->get('trashed') == 1) {
-            $builder = $builder->onlyTrashed();
-        }
-        return $builder;
-    }
+    
 }
