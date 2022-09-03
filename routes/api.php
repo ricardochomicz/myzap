@@ -6,7 +6,8 @@ use App\Http\Controllers\Api\{
     ProductController,
     ProductInputController,
     ProductOutputController,
-    ProductPhotoController
+    ProductPhotoController,
+    UserController
 };
 
 use Illuminate\Http\Request;
@@ -20,6 +21,7 @@ Route::group(['as' => 'api.'], function () {
     Route::resource('products.photos', ProductPhotoController::class, ['except' => ['create', 'edit']]);
     Route::resource('inputs', ProductInputController::class, ['only' => ['index', 'store', 'show']]);
     Route::resource('outputs', ProductOutputController::class, ['only' => ['index', 'store', 'show']]);
+    Route::resource('users', UserController::class, ['except' => ['edit', 'create']]);
 });
 
 
