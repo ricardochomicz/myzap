@@ -7,6 +7,7 @@ use App\Http\Requests\ProductRequest;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Builder;
 
 class ProductController extends Controller
 {
@@ -15,9 +16,12 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::paginate();
+        $query = Product::query();
+        //acrescenta o trashed se for passado parametro
+        $query = $this->onlyTrashedIfRequest($request, $query);
+        $products = $query->paginate();
         return ProductResource::collection($products);
     }
 
@@ -71,5 +75,16 @@ class ProductController extends Controller
     {
         $product->delete();
         return response()->json([], 204);
+    }
+
+    /**
+     * parametro rota contém trashed=1
+     */
+    private function onlyTrashedIfRequest(Request $request, Builder $builder)
+    {
+        if($request->get('trashed') == 1){
+            $builder = $builder->onlyTrashed();
+        }
+        return $builder;
     }
 }

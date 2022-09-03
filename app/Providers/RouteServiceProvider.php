@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
@@ -45,9 +46,19 @@ class RouteServiceProvider extends ServiceProvider
         });
 
         Route::bind('product', function($value){
-            $collection = Product::whereId($value)->orWhere('slug', $value)->get();
+            $query = Product::query();
+            $query = $this->onlyTrashedIfRequest($query);
+            $collection = $query->whereId($value)->orWhere('slug', $value)->get();
             return $collection->first();
         });
+    }
+
+    private function onlyTrashedIfRequest(Builder $builder)
+    {
+        if(\Request::get('trashed') == 1){
+            $builder = $builder->onlyTrashed();
+        }
+        return $builder;
     }
 
     /**
@@ -61,4 +72,6 @@ class RouteServiceProvider extends ServiceProvider
             return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
         });
     }
+
+   
 }
