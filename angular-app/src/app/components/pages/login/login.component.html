@@ -1,14 +1,14 @@
 <main class="form-signin w-100 m-auto">
-    <form>
+    <form (submit)="login()">
         <img class="rounded mx-auto d-block mb-3" src="assets/images/whatsapp.png" alt="" width="72" height="72">
-        <h1 class="h3 mb-3 fw-normal text-center">Login</h1>
+        <h1 class="h3 mb-3 fw-normal text-center">Login <b>MyZap</b></h1>
 
         <div class="form-floating">
-            <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+            <input type="email" class="form-control" name="email" [(ngModel)]="credentials.email" id="floatingInput" placeholder="name@example.com">
             <label for="floatingInput">Seu E-mail</label>
         </div>
         <div class="form-floating">
-            <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+            <input type="password" class="form-control" name="password" [(ngModel)]="credentials.password" id="floatingPassword" placeholder="Password">
             <label for="floatingPassword">Sua Senha</label>
         </div>
 
