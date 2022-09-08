@@ -80,15 +80,15 @@ class AuthController extends Controller
                     'status' => false,
                     'message' => 'Email & Password does not match with our record.',
                 ], 401);
+            } else {
+                $user = User::where('email', $request->email)->first();
+
+                return response()->json([
+                    'status' => true,
+                    'message' => 'User Logged In Successfully',
+                    'token' => $user->createToken("access_token")->plainTextToken
+                ], 200);
             }
-
-            $user = User::where('email', $request->email)->first();
-
-            return response()->json([
-                'status' => true,
-                'message' => 'User Logged In Successfully',
-                'token' => $user->createToken("access_token")->plainTextToken
-            ], 200);
         } catch (\Throwable $th) {
             return response()->json([
                 'status' => false,
