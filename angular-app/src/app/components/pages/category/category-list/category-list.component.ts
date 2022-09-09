@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Category } from 'src/app/models';
 import { ToastrService } from 'ngx-toastr';
+import { ModalComponent } from './../../../bootstrap/modal/modal.component';
 
 @Component({
     selector: 'category-list',
@@ -11,6 +12,13 @@ import { ToastrService } from 'ngx-toastr';
 export class CategoryListComponent implements OnInit {
 
     categories: Array<Category> = [];
+
+    category = {
+        name: ''
+    }
+
+    @ViewChild(ModalComponent)
+    modal!: ModalComponent
 
     constructor(private http: HttpClient, private toastr: ToastrService) { }
 
@@ -28,16 +36,23 @@ export class CategoryListComponent implements OnInit {
             next: (response) => {
                 this.categories = response.data
             },
-            error: (erro) => {
-                console.log(erro.statusText)
-                this.toastr.error('Erro ao carregar categorias!', erro.status + ' ' + erro.statusText);
+            error: (error) => {
+                this.toastr.error('Erro ao carregar categorias!', error.status + ' ' + error.statusText);
             }
         })
     }
 
-    submit(){
+    submit() {
         const token = window.localStorage.getItem('access_token')
-        
+
+    }
+
+    showModal() {
+        this.modal.show()
+    }
+
+    hideModal($event: any) {
+        console.log($event)
     }
 
 }

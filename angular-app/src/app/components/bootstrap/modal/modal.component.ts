@@ -1,15 +1,43 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, EventEmitter, Output } from '@angular/core';
+
+//@ts-ignore
+declare const $;
 
 @Component({
-  selector: 'modal',
-  templateUrl: './modal.component.html',
-  styleUrls: ['./modal.component.css']
+    selector: 'modal',
+    templateUrl: './modal.component.html'
 })
 export class ModalComponent implements OnInit {
 
-  constructor() { }
+    @Output()
+    onHide: EventEmitter<Event> = new EventEmitter<Event>()
 
-  ngOnInit(): void {
-  }
+    constructor(private element: ElementRef) { }
+
+    ngOnInit(): void {
+        const jQueryElement = this.getjQueryElement()
+        jQueryElement.find('[modal-title]').addClass('modal-title')
+        jQueryElement.find('[modal-body]').addClass('modal-body')
+        jQueryElement.find('[modal-footer]').addClass('modal-footer')
+
+        jQueryElement.addEventListener('hidden.bs.modal', (event: any) => {
+            this.onHide.emit(event)
+            console.log(event)
+        })
+    }
+
+    show() {
+        this.getjQueryElement().modal('show');
+    }
+
+    hide() {
+        this.getjQueryElement().modal('hide');
+    }
+
+    private getjQueryElement() {
+        const nativeElement = this.element.nativeElement;
+        //captura primeiro elemento div da modal
+        return $(nativeElement.firstChild);
+    }
 
 }
