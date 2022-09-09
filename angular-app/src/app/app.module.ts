@@ -11,13 +11,15 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './components/pages/login/login.component';
 import { CategoryListComponent } from './components/pages/category/category-list/category-list.component';
 import { HeaderComponent } from './components/bootstrap/header/header.component';
+import { ModalComponent } from './components/bootstrap/modal/modal.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         LoginComponent,
         CategoryListComponent,
-        HeaderComponent
+        HeaderComponent,
+        ModalComponent
     ],
     imports: [
         BrowserModule,
