@@ -20,9 +20,8 @@ export class ModalComponent implements OnInit {
         jQueryElement.find('[modal-body]').addClass('modal-body')
         jQueryElement.find('[modal-footer]').addClass('modal-footer')
 
-        jQueryElement.addEventListener('hidden.bs.modal', (event: any) => {
-            this.onHide.emit(event)
-            console.log(event)
+        jQueryElement.on('hidden.bs.modal', function (e: any) {
+            console.log(e)
         })
     }
 

@@ -1,0 +1,13 @@
+<div class="overlay" *ngIf="_show">
+    <div class="d-flex flex-column align-items-center justify-content-center">
+        <div class="row">
+            <div class="spinner-border" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <div class="row">
+            <!-- <strong>Carregando...</strong> -->
+            <ng-content></ng-content>
+        </div>
+    </div>
+</div>
