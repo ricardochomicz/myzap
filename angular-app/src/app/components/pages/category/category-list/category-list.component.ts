@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Category } from 'src/app/models';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
     selector: 'category-list',
@@ -8,25 +10,34 @@ import { HttpClient } from '@angular/common/http';
 })
 export class CategoryListComponent implements OnInit {
 
-    categories: any;
+    categories: Array<Category> = [];
 
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient, private toastr: ToastrService) { }
 
     ngOnInit(): void {
         this.getCategories()
     }
+
     getCategories() {
         const token = window.localStorage.getItem('access_token')
-        this.http.get("http://localhost:8000/api/categories", {
+        this.http.get<{ data: Array<Category> }>("http://localhost:8000/api/categories", {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
-        }).subscribe(response => {
-            //@ts-ignore
-            this.categories = response.data
-            console.log(this.categories)
+        }).subscribe({
+            next: (response) => {
+                this.categories = response.data
+            },
+            error: (erro) => {
+                console.log(erro.statusText)
+                this.toastr.error('Erro ao carregar categorias!', erro.status + ' ' + erro.statusText);
+            }
         })
+    }
 
+    submit(){
+        const token = window.localStorage.getItem('access_token')
+        
     }
 
 }

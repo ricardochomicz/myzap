@@ -18,7 +18,8 @@ class CategoryResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'slug' => $this->slug,
-            'created_at' => $this->created_at,
+            'active' => $this->active,
+            'created_at' => \Carbon\Carbon::parse($this->created_at)->format('d/m/Y'),
             'updated_at' => $this->updated_at->diffForHumans()
         ];
     }

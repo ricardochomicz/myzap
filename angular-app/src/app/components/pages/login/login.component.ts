@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
     selector: 'app-login',
@@ -14,7 +15,7 @@ export class LoginComponent implements OnInit {
         password: "password"
     }
 
-    constructor(private http: HttpClient, private route: Router) { }
+    constructor(private http: HttpClient, private route: Router, private toastr: ToastrService) { }
 
     ngOnInit(): void {
 
@@ -22,15 +23,20 @@ export class LoginComponent implements OnInit {
 
     login() {
         this.http.post("http://localhost:8000/api/login", this.credentials)
-            .subscribe(response => {
-                //@ts-ignore
-                const token = response.token
-                window.localStorage.setItem('access_token', token)
-                this.route.navigate(['categories'])
+            .subscribe({
+                next: (response) => {
+                    //@ts-ignore
+                    const token = response.token
+                    window.localStorage.setItem('access_token', token)
+                    this.route.navigate(['categories'])
+                },
+                error: (erro) => {
+                    console.log(erro.statusText)
+                    this.toastr.error('Credenciais Inválidas!', erro.statusText);
+                }
+
             })
         return false;
     }
-
-
 
 }
