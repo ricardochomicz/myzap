@@ -1,7 +1,8 @@
 import { HttpErrorResponse, HttpClient } from '@angular/common/http';
 import { Component, OnInit, Output, ViewChild, EventEmitter, Input } from '@angular/core';
 import { ModalComponent } from './../../../bootstrap/modal/modal.component';
-
+import { CategoryHttpService } from './../../../../services/http/category-http.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
     selector: 'category-edit-modal',
@@ -24,7 +25,10 @@ export class CategoryEditModalComponent implements OnInit {
     @Output() onSuccess: EventEmitter<any> = new EventEmitter<any>()
     @Output() onError: EventEmitter<HttpErrorResponse> = new EventEmitter<HttpErrorResponse>()
 
-    constructor(private http: HttpClient) { }
+    constructor(
+        private categoryHttp: CategoryHttpService,
+        private toastr: ToastrService
+    ) { }
 
     ngOnInit(): void {
     }
@@ -33,39 +37,31 @@ export class CategoryEditModalComponent implements OnInit {
     set categoryId(value: number) {
         this._categoryId = value
         if (this._categoryId) {
-            const token = window.localStorage.getItem('access_token')
-            this.http.get(`http://localhost:8000/api/categories/${value}`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            }).subscribe({
-                next: (response) => {
-                    //@ts-ignore
-                    this.category = response.data
-                    this.showOverlay = false
-                },
-                error: (error) => {
-
-                }
-            })
+            this.categoryHttp.get(value)
+                .subscribe({
+                    next: (response) => {
+                        //@ts-ignore
+                        this.category = response
+                        this.showOverlay = false
+                    },
+                    error: (error) => {
+                        this.toastr.error('Erro ao carregar categorias!', error.status + ' ' + error.statusText);
+                    }
+                })
         }
     }
 
     submit() {
-        const token = window.localStorage.getItem('access_token')
-        this.http.put(`http://localhost:8000/api/categories/${this._categoryId}`, this.category, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        }).subscribe({
-            next: (category) => {
-                this.onSuccess.emit(category)
-                this.modal.hide()
-            },
-            error: (error) => {
-                this.onError.emit(error)
-            }
-        })
+        this.categoryHttp.update(this._categoryId, this.category)
+            .subscribe({
+                next: (category) => {
+                    this.onSuccess.emit(category)
+                    this.modal.hide()
+                },
+                error: (error) => {
+                    this.onError.emit(error)
+                }
+            })
     }
 
     showModal() {

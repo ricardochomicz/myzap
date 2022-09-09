@@ -1,16 +1,15 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Category } from 'src/app/models';
 import { ToastrService } from 'ngx-toastr';
-import { ModalComponent } from './../../../bootstrap/modal/modal.component';
 import { CategoryNewModalComponent } from './../category-new-modal/category-new-modal.component';
 import { CategoryEditModalComponent } from './../category-edit-modal/category-edit-modal.component';
 import { CategoryDeleteModalComponent } from './../category-delete-modal/category-delete-modal.component';
+import { CategoryHttpService } from './../../../../services/http/category-http.service';
 
 @Component({
     selector: 'category-list',
-    templateUrl: './category-list.component.html',
-    styleUrls: ['./category-list.component.css']
+    templateUrl: './category-list.component.html'
 })
 export class CategoryListComponent implements OnInit {
 
@@ -29,27 +28,25 @@ export class CategoryListComponent implements OnInit {
     @ViewChild(CategoryDeleteModalComponent)
     categoryDeleteModal!: CategoryDeleteModalComponent
 
-    constructor(private http: HttpClient, private toastr: ToastrService) { }
+    constructor(
+        private toastr: ToastrService,
+        private categoryHttp: CategoryHttpService) { }
 
     ngOnInit(): void {
         this.getCategories()
     }
 
     getCategories() {
-        const token = window.localStorage.getItem('access_token')
-        this.http.get<{ data: Array<Category> }>("http://localhost:8000/api/categories", {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        }).subscribe({
-            next: (response) => {
-                this.categories = response.data
-                this.showOverlay = false
-            },
-            error: (error) => {
-                this.toastr.error('Erro ao carregar categorias!', error.status + ' ' + error.statusText);
-            }
-        })
+        this.categoryHttp.list()
+            .subscribe({
+                next: (response) => {
+                    this.categories = response.data
+                    this.showOverlay = false
+                },
+                error: (error) => {
+                    this.toastr.error('Erro ao carregar categorias!', error.status + ' ' + error.statusText);
+                }
+            })
     }
 
 

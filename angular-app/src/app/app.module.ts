@@ -16,6 +16,11 @@ import { CategoryNewModalComponent } from './components/pages/category/category-
 import { CategoryEditModalComponent } from './components/pages/category/category-edit-modal/category-edit-modal.component';
 import { OverlayComponent } from './components/bootstrap/overlay/overlay.component';
 import { CategoryDeleteModalComponent } from './components/pages/category/category-delete-modal/category-delete-modal.component';
+import { ProductListComponent } from './components/pages/product/product-list/product-list.component';
+import { ProductNewModalComponent } from './components/pages/product/product-new-modal/product-new-modal.component';
+import { ProductEditModalComponent } from './components/pages/product/product-edit-modal/product-edit-modal.component';
+import { ProductDeleteModalComponent } from './components/pages/product/product-delete-modal/product-delete-modal.component';
+import { ProductCategoryListComponent } from './components/pages/product-category/product-category-list/product-category-list.component';
 
 @NgModule({
     declarations: [
@@ -27,7 +32,12 @@ import { CategoryDeleteModalComponent } from './components/pages/category/catego
         CategoryNewModalComponent,
         CategoryEditModalComponent,
         OverlayComponent,
-        CategoryDeleteModalComponent
+        CategoryDeleteModalComponent,
+        ProductListComponent,
+        ProductNewModalComponent,
+        ProductEditModalComponent,
+        ProductDeleteModalComponent,
+        ProductCategoryListComponent
     ],
     imports: [
         BrowserModule,
@@ -35,7 +45,9 @@ import { CategoryDeleteModalComponent } from './components/pages/category/catego
         AppRoutingModule,
         FormsModule,
         BrowserAnimationsModule,
-        ToastrModule.forRoot(),
+        ToastrModule.forRoot({
+            positionClass: 'toast-bottom-right',
+        }),
     ],
     providers: [],
     bootstrap: [AppComponent]

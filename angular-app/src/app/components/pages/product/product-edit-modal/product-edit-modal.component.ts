@@ -1,19 +1,23 @@
-import { Component, OnInit, ViewChild, EventEmitter, Output, Input } from '@angular/core';
+import { Component, OnInit, Output, ViewChild, EventEmitter, Input } from '@angular/core';
 import { ModalComponent } from './../../../bootstrap/modal/modal.component';
 import { HttpErrorResponse } from '@angular/common/http';
-import { CategoryHttpService } from './../../../../services/http/category-http.service';
+import { ProductHttpService } from './../../../../services/http/product-http.service';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
-    selector: 'category-delete-modal',
-    templateUrl: './category-delete-modal.component.html',
-    styleUrls: ['./category-delete-modal.component.css']
+    selector: 'product-edit-modal',
+    templateUrl: './product-edit-modal.component.html'
 })
-export class CategoryDeleteModalComponent implements OnInit {
+export class ProductEditModalComponent implements OnInit {
 
-    category!: any;
+    _productId!: number;
 
-    _categoryId!: number;
+    product = {
+        name: '',
+        price: '',
+        description: '',
+        active: true
+    }
 
     showOverlay = true;
 
@@ -22,20 +26,21 @@ export class CategoryDeleteModalComponent implements OnInit {
     @Output() onSuccess: EventEmitter<any> = new EventEmitter<any>()
     @Output() onError: EventEmitter<HttpErrorResponse> = new EventEmitter<HttpErrorResponse>()
 
-    constructor(private categoryHttp: CategoryHttpService, private toastr: ToastrService) { }
+    constructor(private productHttp: ProductHttpService,
+        private toastr: ToastrService) { }
 
     ngOnInit(): void {
     }
 
     @Input()
-    set categoryId(value: number) {
-        this._categoryId = value
-        if (this._categoryId) {
-            this.categoryHttp.get(value)
+    set productId(value: number) {
+        this._productId = value
+        if (this._productId) {
+            this.productHttp.get(value)
                 .subscribe({
                     next: (response) => {
                         //@ts-ignore
-                        this.category = response.data
+                        this.product = response
                         this.showOverlay = false
                     },
                     error: (error) => {
@@ -46,10 +51,10 @@ export class CategoryDeleteModalComponent implements OnInit {
     }
 
     submit() {
-        this.categoryHttp.delete(this._categoryId)
+        this.productHttp.update(this._productId, this.product)
             .subscribe({
-                next: () => {
-                    this.onSuccess.emit()
+                next: (product) => {
+                    this.onSuccess.emit(product)
                     this.modal.hide()
                 },
                 error: (error) => {
@@ -66,5 +71,6 @@ export class CategoryDeleteModalComponent implements OnInit {
     hideModal($event: any) {
         console.log($event)
     }
+
 
 }

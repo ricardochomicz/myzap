@@ -22,8 +22,8 @@ class ProductResource extends JsonResource
             'description' => $this->description,
             'stock' => $this->stock,
             'active' => $this->active,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at
+            'created_at' => \Carbon\Carbon::parse($this->created_at)->format('d/m/Y'),
+            'updated_at' => $this->updated_at->diffForHumans()
         ];
     }
 }

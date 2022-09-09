@@ -1,0 +1,14 @@
+<form (submit)="submit()">
+    <modal (onHide)="hideModal($event)">
+
+        <h5 modal-title>Excluir Produto</h5>
+        <div modal-body>
+            <overlay [(show)]="showOverlay"><strong>Carregando Produto</strong></overlay>
+            Deseja excluir o produto? <strong>{{product?.name}}</strong>
+        </div>
+        <div modal-footer>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+            <button type="submit" class="btn btn-danger">Excluir</button>
+        </div>
+    </modal>
+</form>
