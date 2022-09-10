@@ -15,6 +15,21 @@ export interface Product {
     active?: boolean;
     slug?: string;
     description?: string;
-    created_at?: { date: string };
-    updated_at?: { date: string };
+    readonly created_at?: { date: string };
+    readonly updated_at?: { date: string };
+}
+
+export interface ProductCategory {
+    product: Product;
+    categories: Array<Category>
+}
+
+export interface User {
+    id?: number;
+    name: string;
+    email: string;
+    phone?: string;
+    password?: string;
+    readonly created_at?: { date: string };
+    readonly updated_at?: { date: string };
 }

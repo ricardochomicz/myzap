@@ -21,7 +21,7 @@ Route::group(['as' => 'api.'], function () {
         Route::resource('categories', CategoryController::class, ['except' => ['edit', 'create']]);
         Route::patch('products/{product}/restore', [ProductController::class, 'restore']);
         Route::resource('products', ProductController::class, ['except' => ['edit', 'create']]);
-        Route::resource('products.categories', ProductCategoryController::class, ['only' => ['index', 'store', 'destroy']]);
+        Route::resource('product.categories', ProductCategoryController::class, ['only' => ['index', 'store', 'destroy']]);
         Route::resource('products.photos', ProductPhotoController::class, ['except' => ['create', 'edit']]);
         Route::resource('inputs', ProductInputController::class, ['only' => ['index', 'store', 'show']]);
         Route::resource('outputs', ProductOutputController::class, ['only' => ['index', 'store', 'show']]);

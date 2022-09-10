@@ -9,7 +9,7 @@
         </div>
     </h5>
     <div class="card-body">
-        <overlay [(show)]="showOverlay"><strong>Carregando Categorias</strong></overlay>
+        
         <div class="table-responsive">
             <table class="table table-borderless">
                 <thead>
@@ -46,7 +46,7 @@
         </div>
     </div>
 </div>
-
+<overlay [(show)]="showOverlay"><strong>Carregando Categorias</strong></overlay>
 <category-new-modal (onSuccess)="onInsertSuccess($event)" (onError)="onInsertError($event)"></category-new-modal>
 
 <category-edit-modal [categoryId]="categoryId" (onSuccess)="onEditSuccess($event)" (onError)="onEditError($event)">

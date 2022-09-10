@@ -21,6 +21,7 @@ import { ProductNewModalComponent } from './components/pages/product/product-new
 import { ProductEditModalComponent } from './components/pages/product/product-edit-modal/product-edit-modal.component';
 import { ProductDeleteModalComponent } from './components/pages/product/product-delete-modal/product-delete-modal.component';
 import { ProductCategoryListComponent } from './components/pages/product-category/product-category-list/product-category-list.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
     declarations: [
@@ -48,6 +49,7 @@ import { ProductCategoryListComponent } from './components/pages/product-categor
         ToastrModule.forRoot({
             positionClass: 'toast-bottom-right',
         }),
+        NgbModule,
     ],
     providers: [],
     bootstrap: [AppComponent]

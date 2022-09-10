@@ -229,7 +229,9 @@ button.toast-close-button {
   }
 }
 
-
+.overlay.dark, .info-box .overlay.dark, .overlay-wrapper .overlay.dark, .small-box .overlay.dark {
+  background-color: rgba(0,0,0,.5);
+}
 
 .overlay, .info-box .overlay, .overlay-wrapper .overlay, .small-box .overlay {
   border-radius: .25rem;

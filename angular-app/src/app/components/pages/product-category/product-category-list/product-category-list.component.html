@@ -1,1 +1,52 @@
-<p>product-category-list works!</p>
+<div class="card mt-4">
+
+    <h5 class="card-header d-flex align-items-center">
+        <i class="fas fa-layer-group me-2"></i> Categorias do Produto - {{product?.name}}
+    </h5>
+    <div class="card-body">
+
+        <form class="row g-3" (submit)="submit()">
+            <div class="col-auto">
+                <label for="categories[]">Categorias</label>
+                <select name="categories[]" id="categories" multiple class="form-select" [(ngModel)]="categoriesId">
+                    <option *ngFor="let category of categories" [ngValue]="category.id" >{{category.name}}</option>
+                </select>
+            </div>
+            <div class="col-auto d-flex align-items-center">
+                <button class="btn btn-primary" type="submit">Incluir Categoria</button>
+            </div>
+        </form>
+
+        <div class="table-responsive">
+            <table class="table table-borderless">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Nome</th>
+                        <th class="text-center">Ativo?</th>
+                        <th>Criado em</th>
+                        <th class="text-center" scope="col">Ação</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let category of productCategory?.categories">
+                        <td>{{category.id}}</td>
+                        <td>{{category.name}}</td>
+                        <td class="text-center">
+                            <i class="fas fa-2x"
+                                [ngClass]="{'fa-toggle-on text-success': category.active, 'fa-toggle-off text-danger': !category.active}"></i>
+                        </td>
+                        <td>{{category.created_at}}</td>
+                        <td class="text-center">
+                            <a href="javascript:void(0)" class="btn btn-outline-primary btn-sm me-md-2">
+                                <i class="fas fa-edit"></i>
+                            </a>
+
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<overlay [(show)]="showOverlay"><strong>Carregando Categorias do Produto</strong></overlay>
