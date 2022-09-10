@@ -22,6 +22,7 @@ import { ProductEditModalComponent } from './components/pages/product/product-ed
 import { ProductDeleteModalComponent } from './components/pages/product/product-delete-modal/product-delete-modal.component';
 import { ProductCategoryListComponent } from './components/pages/product-category/product-category-list/product-category-list.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ProductCategoryNewComponent } from './components/pages/product-category/product-category-new/product-category-new.component';
 
 @NgModule({
     declarations: [
@@ -38,7 +39,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
         ProductNewModalComponent,
         ProductEditModalComponent,
         ProductDeleteModalComponent,
-        ProductCategoryListComponent
+        ProductCategoryListComponent,
+        ProductCategoryNewComponent
     ],
     imports: [
         BrowserModule,

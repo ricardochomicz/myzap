@@ -5,17 +5,9 @@
     </h5>
     <div class="card-body">
 
-        <form class="row g-3" (submit)="submit()">
-            <div class="col-auto">
-                <label for="categories[]">Categorias</label>
-                <select name="categories[]" id="categories" multiple class="form-select" [(ngModel)]="categoriesId">
-                    <option *ngFor="let category of categories" [ngValue]="category.id" >{{category.name}}</option>
-                </select>
-            </div>
-            <div class="col-auto d-flex align-items-center">
-                <button class="btn btn-primary" type="submit">Incluir Categoria</button>
-            </div>
-        </form>
+       <product-category-new [productId]="productId" [productCategory]="productCategory"
+       (onSuccess)="onInsertSuccess($event)"
+       (onError)="onInsertError($event)"></product-category-new>
 
         <div class="table-responsive">
             <table class="table table-borderless">
