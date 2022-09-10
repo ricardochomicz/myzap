@@ -6,6 +6,9 @@ import { CategoryNewModalComponent } from './../category-new-modal/category-new-
 import { CategoryEditModalComponent } from './../category-edit-modal/category-edit-modal.component';
 import { CategoryDeleteModalComponent } from './../category-delete-modal/category-delete-modal.component';
 import { CategoryHttpService } from './../../../../services/http/category-http.service';
+import { CategoryInsertService } from './category-insert.service';
+import { CategoryEditService } from './category-edit.service';
+import { CategoryDeleteService } from './category-delete.service';
 
 @Component({
     selector: 'category-list',
@@ -30,7 +33,14 @@ export class CategoryListComponent implements OnInit {
 
     constructor(
         private toastr: ToastrService,
-        private categoryHttp: CategoryHttpService) { }
+        private categoryHttp: CategoryHttpService,
+        protected categoryInsertService: CategoryInsertService,
+        protected categoryEditService: CategoryEditService,
+        protected categoryDeleteService: CategoryDeleteService) {
+        this.categoryInsertService.categoryListComponent = this
+        this.categoryEditService.categoryListComponent = this
+        this.categoryDeleteService.categoryListComponent = this
+    }
 
     ngOnInit(): void {
         this.getCategories()
@@ -47,48 +57,6 @@ export class CategoryListComponent implements OnInit {
                     this.toastr.error('Erro ao carregar categorias!', error.status + ' ' + error.statusText);
                 }
             })
-    }
-
-
-    showModalInsert() {
-        this.categoryNewModal.showModal()
-    }
-
-    showModalEdit(categoryId: any) {
-        this.categoryId = categoryId
-        this.categoryEditModal.showModal()
-    }
-
-    showModalDelete(categoryId: any) {
-        this.categoryId = categoryId
-        this.categoryDeleteModal.showModal()
-    }
-
-    onInsertSuccess($event: any) {
-        this.toastr.success('Categoria cadastrada com sucesso!');
-        this.getCategories();
-    }
-
-    onInsertError($event: HttpErrorResponse) {
-        console.log($event);
-    }
-
-    onEditSuccess($event: any) {
-        this.toastr.success('Categoria atualizada com sucesso!');
-        this.getCategories();
-    }
-
-    onEditError($event: HttpErrorResponse) {
-        console.log($event);
-    }
-
-    onDeleteSuccess() {
-        this.toastr.success('Categoria excluída com sucesso!');
-        this.getCategories();
-    }
-
-    onDeleteError($event: HttpErrorResponse) {
-        console.log($event);
     }
 
 }

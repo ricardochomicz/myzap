@@ -52,7 +52,7 @@ export class ProductCategoryNewComponent implements OnInit {
             .subscribe({
                 next: () => {
                     this.onSuccess.emit(this.productCategory)
-                    this.toastr.success('Categoria incluída com sucesso');
+                    this.toastr.success('Categoria(s) incluída(s) com sucesso');
                 },
                 error: (error) => {
                     this.onError.emit(error)

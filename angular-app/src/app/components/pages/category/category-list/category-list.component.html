@@ -3,13 +3,13 @@
     <h5 class="card-header d-flex align-items-center">
         <i class="fas fa-layer-group me-2"></i> Categorias
         <div class="d-flex ms-auto">
-            <button class="btn btn-dark btn-sm" (click)="showModalInsert()">
+            <button class="btn btn-dark btn-sm" (click)="categoryInsertService.showModalInsert()">
                 <i class="fas fa-plus fa-lg"></i> Nova Categoria
             </button>
         </div>
     </h5>
     <div class="card-body">
-        
+
         <div class="table-responsive">
             <table class="table table-borderless">
                 <thead>
@@ -32,11 +32,11 @@
                         <td>{{category.created_at}}</td>
                         <td class="text-center">
                             <a href="javascript:void(0)" class="btn btn-outline-primary btn-sm me-md-2"
-                                (click)="showModalEdit(category.id)">
+                                (click)="categoryEditService.showModalEdit(category.id)">
                                 <i class="fas fa-edit"></i>
                             </a>
                             <a href="javascript:void(0)" class="btn btn-outline-danger btn-sm"
-                                (click)="showModalDelete(category.id)">
+                                (click)="categoryDeleteService.showModalDelete(category.id)">
                                 <i class="fas fa-trash-alt"></i>
                             </a>
                         </td>
@@ -46,11 +46,14 @@
         </div>
     </div>
 </div>
-<overlay [(show)]="showOverlay"><strong>Carregando Categorias</strong></overlay>
-<category-new-modal (onSuccess)="onInsertSuccess($event)" (onError)="onInsertError($event)"></category-new-modal>
+<!-- <overlay [(show)]="showOverlay"><strong>Carregando Categorias</strong></overlay> -->
+<category-new-modal (onSuccess)="categoryInsertService.onInsertSuccess($event)"
+    (onError)="categoryInsertService.onInsertError($event)"></category-new-modal>
 
-<category-edit-modal [categoryId]="categoryId" (onSuccess)="onEditSuccess($event)" (onError)="onEditError($event)">
+<category-edit-modal [categoryId]="categoryId" (onSuccess)="categoryEditService.onEditSuccess($event)"
+    (onError)="categoryEditService.onEditError($event)">
 </category-edit-modal>
 
-<category-delete-modal [categoryId]="categoryId" (onSuccess)="onDeleteSuccess()" (onError)="onDeleteError($event)">
+<category-delete-modal [categoryId]="categoryId" (onSuccess)="categoryDeleteService.onDeleteSuccess()"
+    (onError)="categoryDeleteService.onDeleteError($event)">
 </category-delete-modal>

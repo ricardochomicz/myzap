@@ -1,7 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
 
+@import url('https://fonts.googleapis.com/css2?family=Nunito&family=Roboto&display=swap');
+
 tr>td {
-  vertical-align: middle!important;
+  vertical-align: middle !important;
 }
 
 .toast-center-center {
@@ -229,29 +231,45 @@ button.toast-close-button {
   }
 }
 
-.overlay.dark, .info-box .overlay.dark, .overlay-wrapper .overlay.dark, .small-box .overlay.dark {
-  background-color: rgba(0,0,0,.5);
+.overlay.dark,
+.info-box .overlay.dark,
+.overlay-wrapper .overlay.dark,
+.small-box .overlay.dark {
+  background-color: rgba(0, 0, 0, .5);
 }
 
-.overlay, .info-box .overlay, .overlay-wrapper .overlay, .small-box .overlay {
+.overlay,
+.info-box .overlay,
+.overlay-wrapper .overlay,
+.small-box .overlay {
   border-radius: .25rem;
   -ms-flex-align: center;
   align-items: center;
-  background-color: rgba(255,255,255,.7);
+  background-color: rgba(255, 255, 255, .7);
   display: -ms-flexbox;
   display: flex;
   -ms-flex-pack: center;
   justify-content: center;
   z-index: 50;
 }
-.overlay, .info-box>.loading-img, .info-box>.overlay, .overlay-wrapper>.loading-img, .overlay-wrapper>.overlay, .small-box>.loading-img, .small-box>.overlay {
+
+.overlay,
+.info-box>.loading-img,
+.info-box>.overlay,
+.overlay-wrapper>.loading-img,
+.overlay-wrapper>.overlay,
+.small-box>.loading-img,
+.small-box>.overlay {
   height: 100%;
   left: 0;
   position: absolute;
   top: 0;
   width: 100%;
 }
-*, ::after, ::before {
+
+*,
+::after,
+::before {
   box-sizing: border-box;
 }
 
@@ -316,4 +334,28 @@ input:checked+.slider:before {
 
 .slider.round:before {
   border-radius: 50%;
+}
+
+/* This is a compiled file, you should be editing the file in the templates directory */
+.pace {
+  -webkit-pointer-events: none;
+  pointer-events: none;
+
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+
+.pace-inactive {
+  display: none;
+}
+
+.pace .pace-progress {
+  background: #2299dd;
+  position: fixed;
+  z-index: 2000;
+  top: 0;
+  right: 100%;
+  width: 100%;
+  height: 4px;
 }
