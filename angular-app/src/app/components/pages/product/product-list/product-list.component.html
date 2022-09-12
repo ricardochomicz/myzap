@@ -23,7 +23,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let product of products">
+                    <tr
+                        *ngFor="let product of products | paginate: {itemsPerPage: pagination.itemsPerPage, currentPage: pagination.page, totalItems: pagination.totalItems}">
                         <td>{{product.id}}</td>
                         <td>{{product.name}}</td>
                         <td>{{product.price | currency: 'BRL' }}</td>
@@ -49,6 +50,12 @@
                     </tr>
                 </tbody>
             </table>
+
+            <div class="pagination justify-content-center">
+                <pagination-controls (pageChange)="pageChanged($event)" previousLabel="Anterior" nextLabel="Próxima">
+                </pagination-controls>
+            </div>
+
         </div>
     </div>
 </div>

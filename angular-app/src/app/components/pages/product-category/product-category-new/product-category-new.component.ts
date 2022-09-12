@@ -32,7 +32,7 @@ export class ProductCategoryNewComponent implements OnInit {
 
     getCategories() {
         this.categoryHttp
-            .list()
+            .list({ all: true })
             .subscribe({
                 next: (response) => {
                     //@ts-ignore

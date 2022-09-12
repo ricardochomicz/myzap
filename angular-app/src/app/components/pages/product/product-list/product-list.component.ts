@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { ProductHttpService } from './../../../../services/http/product-http.service';
 import { Product } from 'src/app/models';
 import { ToastrService } from 'ngx-toastr';
@@ -19,6 +19,13 @@ export class ProductListComponent implements OnInit {
     products: Array<Product> = [];
 
     productId!: any
+
+    @Input()
+    pagination = {
+        page: 1,
+        totalItems: 0,
+        itemsPerPage: 15
+    }
 
     showOverlay = true;
 
@@ -46,16 +53,23 @@ export class ProductListComponent implements OnInit {
     }
 
     getProducts() {
-        this.productHttp.list()
+        this.productHttp.list({ page: this.pagination.page })
             .subscribe({
                 next: (response) => {
                     this.products = response.data
+                    this.pagination.totalItems = response.meta.total
+                    this.pagination.itemsPerPage = response.meta.per_page
                     this.showOverlay = false
                 },
                 error: (error) => {
                     this.toastr.error('Erro ao carregar produtos!', error.status + ' ' + error.statusText);
                 }
             })
+    }
+
+    pageChanged(page: number) {
+        this.pagination.page = page
+        this.getProducts()
     }
 
 }

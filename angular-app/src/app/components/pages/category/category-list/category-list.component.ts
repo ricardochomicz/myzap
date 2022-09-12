@@ -20,6 +20,12 @@ export class CategoryListComponent implements OnInit {
 
     categoryId!: any
 
+    pagination = {
+        page: 1,
+        totalItems: 0,
+        itemsPerPage: 5
+    }
+
     showOverlay = true;
 
     @ViewChild(CategoryNewModalComponent)
@@ -47,16 +53,24 @@ export class CategoryListComponent implements OnInit {
     }
 
     getCategories() {
-        this.categoryHttp.list()
+        this.categoryHttp.list({ page: this.pagination.page })
             .subscribe({
                 next: (response) => {
+                    console.log(response)
                     this.categories = response.data
+                    this.pagination.totalItems = response.meta.total
+                    this.pagination.itemsPerPage = response.meta.per_page
                     this.showOverlay = false
                 },
                 error: (error) => {
                     this.toastr.error('Erro ao carregar categorias!', error.status + ' ' + error.statusText);
                 }
             })
+    }
+
+    pageChanged(page: number) {
+        this.pagination.page = page
+        this.getCategories()
     }
 
 }

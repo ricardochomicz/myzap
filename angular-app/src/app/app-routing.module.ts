@@ -11,7 +11,7 @@ const routes: Routes = [
         component: LoginComponent
     },
     {
-        path: 'categories',
+        path: 'categories/list',
         component: CategoryListComponent
     },
     {
@@ -19,7 +19,7 @@ const routes: Routes = [
         component: ProductCategoryListComponent
     },
     {
-        path: 'products',
+        path: 'products/list',
         component: ProductListComponent
     },   
     {
