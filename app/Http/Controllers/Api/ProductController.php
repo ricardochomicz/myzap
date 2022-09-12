@@ -23,7 +23,7 @@ class ProductController extends Controller
         $query = Product::query();
         //acrescenta o trashed se for passado parametro
         $query = $this->onlyTrashedIfRequest($request, $query);
-        $products = $query->paginate(5);
+        $products = $query->paginate();
         return ProductResource::collection($products);
     }
 

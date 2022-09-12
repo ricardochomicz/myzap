@@ -4,6 +4,7 @@ import { CategoryListComponent } from './components/pages/category/category-list
 import { LoginComponent } from './components/pages/login/login.component';
 import { ProductCategoryListComponent } from './components/pages/product-category/product-category-list/product-category-list.component';
 import { ProductListComponent } from './components/pages/product/product-list/product-list.component';
+import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
     {
@@ -12,16 +13,19 @@ const routes: Routes = [
     },
     {
         path: 'categories/list',
-        component: CategoryListComponent
+        component: CategoryListComponent,
+        canActivate: [AuthGuard]
     },
     {
         path: 'product/:product/categories',
-        component: ProductCategoryListComponent
+        component: ProductCategoryListComponent,
+        canActivate: [AuthGuard]
     },
     {
         path: 'products/list',
-        component: ProductListComponent
-    },   
+        component: ProductListComponent,
+        canActivate: [AuthGuard]
+    },
     {
         path: '',
         redirectTo: '/login',

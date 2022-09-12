@@ -17,7 +17,10 @@ use Illuminate\Support\Facades\Route;
 Route::group(['as' => 'api.'], function () {
     Route::name('register')->post('register', [AuthController::class, 'register']);
     Route::name('login')->post('login', [AuthController::class, 'login']);
-    Route::group(['middleware' => 'auth:sanctum'], function () {
+
+    Route::group(['middleware' => ['auth:sanctum']], function () {
+        Route::name('me')->get('me', [AuthController::class, 'me']);
+        Route::name('logout')->get('logout', [AuthController::class, 'logout']);
         Route::resource('categories', CategoryController::class, ['except' => ['edit', 'create']]);
         Route::patch('products/{product}/restore', [ProductController::class, 'restore']);
         Route::resource('products', ProductController::class, ['except' => ['edit', 'create']]);
