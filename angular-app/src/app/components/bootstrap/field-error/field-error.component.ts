@@ -18,4 +18,19 @@ export class FieldErrorComponent implements OnInit {
     ngOnInit(): void {
     }
 
+    get errorKeys() {
+        //@ts-ignore
+        return Object.keys(this.errors)
+    }
+
+    get errors() {
+        return this.field.errors
+    }
+
+    showError() {
+        return this.field.invalid && (this.field.dirty || this.field.touched)
+    }
+
+
+
 }

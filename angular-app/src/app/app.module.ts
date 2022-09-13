@@ -33,6 +33,7 @@ import { UserDeleteModalComponent } from './components/pages/user/user-delete-mo
 import { CategorySearchComponent } from './components/pages/category/category-search/category-search.component';
 import { CategoryFormComponent } from './components/pages/category/category-form/category-form.component';
 import { FieldErrorComponent } from './components/bootstrap/field-error/field-error.component';
+import { IsInvalidDirective } from './directives/is-invalid.directive';
 
 
 @NgModule({
@@ -58,7 +59,8 @@ import { FieldErrorComponent } from './components/bootstrap/field-error/field-er
         UserDeleteModalComponent,
         CategorySearchComponent,
         CategoryFormComponent,
-        FieldErrorComponent
+        FieldErrorComponent,
+        IsInvalidDirective
     ],
     imports: [
         BrowserModule,
