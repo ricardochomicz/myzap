@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Laravel\Sanctum\PersonalAccessToken;
 
 class AuthController extends Controller
 {
@@ -87,7 +88,7 @@ class AuthController extends Controller
                     'status' => true,
                     'message' => 'User Logged In Successfully',
                     'token' => $user->createToken("access_token")->plainTextToken,
-                    'user' => $user
+                    'user' => auth('sanctum')->user()
                 ], 200);
             }
         } catch (\Throwable $th) {

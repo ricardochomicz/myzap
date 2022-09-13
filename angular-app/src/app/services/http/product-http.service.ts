@@ -5,67 +5,45 @@ import { HttpResource, SearchParams, SearchParamsBuilder } from './http-resource
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { AuthService } from './../auth.service';
+import { environment } from './../../../environments/environment';
 
 @Injectable({
     providedIn: 'root'
 })
 export class ProductHttpService implements HttpResource<Product> {
 
-    private baseUrl = "http://localhost:8000/api/products";
+    private baseUrl = `${environment.api.url}/products`;
 
     constructor(private http: HttpClient, private authService: AuthService) { }
     list(searchParams: SearchParams): Observable<{ data: Array<Product>; meta: any; }> {
-        const token = this.authService.getToken();
         const sParams = new SearchParamsBuilder(searchParams).makeObject()
         const params = new HttpParams({
             fromObject: sParams
         })
         return this.http.get<{ data: Product[]; meta: any; }>(this.baseUrl, {
-            params,
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
+            params
         })
     }
     get(id: number): Observable<Product> {
-        const token = this.authService.getToken();
-        return this.http.get<{ data: Product }>(`${this.baseUrl}/${id}`, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        }).pipe(
+        return this.http.get<{ data: Product }>(`${this.baseUrl}/${id}`).pipe(
             map(response => response.data)
         )
     }
 
     create(data: Product): Observable<Product> {
-        const token = this.authService.getToken();
-        return this.http.post<{ data: Product }>(this.baseUrl, data, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        }).pipe(
+        return this.http.post<{ data: Product }>(this.baseUrl, data).pipe(
             map(response => response.data)
         )
     }
 
     update(id: number, data: Product): Observable<Product> {
-        const token = this.authService.getToken();
-        return this.http.put<{ data: Product }>(`${this.baseUrl}/${id}`, data, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        }).pipe(
-            map(response => response.data)
-        )
+        return this.http.put<{ data: Product }>(`${this.baseUrl}/${id}`, data)
+            .pipe(
+                map(response => response.data)
+            )
     }
 
-    delete(id: number): Observable<any> {
-        const token = this.authService.getToken();
-        return this.http.delete<any>(`${this.baseUrl}/${id}`, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        })
+    destroy(id: number): Observable<any> {
+        return this.http.delete<any>(`${this.baseUrl}/${id}`)
     }
 }

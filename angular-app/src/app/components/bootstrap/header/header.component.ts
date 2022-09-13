@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from './../../../services/auth.service';
 import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { User } from 'src/app/models';
 
 @Component({
     selector: 'header',
@@ -9,10 +11,11 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent implements OnInit {
 
-    constructor(public authService: AuthService, private route: Router) { }
+    me!: User
+    constructor(public authService: AuthService, private route: Router, private http: HttpClient) { }
 
     ngOnInit(): void {
-
+        this.getMe()
     }
 
     logout() {
@@ -20,6 +23,20 @@ export class HeaderComponent implements OnInit {
             .subscribe(() => {
                 this.route.navigate(['login'])
             })
+    }
+
+    getMe() {
+        this.http.get('http://localhost:8000/api/me')
+            .subscribe({
+                next: (response) => {
+                    //@ts-ignore
+                    this.me = response.data
+                },
+                error: (error) => {
+                    console.log(error)
+                }
+
+            });
     }
 
 }

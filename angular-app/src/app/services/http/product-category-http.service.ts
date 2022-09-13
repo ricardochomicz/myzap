@@ -15,11 +15,8 @@ export class ProductCategoryHttpService {
     list(productId: number): Observable<ProductCategory> {
         const token = window.localStorage.getItem('access_token');
         return this.http
-            .get<{ data: ProductCategory }>(this.getBaseUrl(productId), {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            }).pipe(
+            .get<{ data: ProductCategory }>(this.getBaseUrl(productId))
+            .pipe(
                 map(response => response.data)
             )
     }
@@ -27,11 +24,8 @@ export class ProductCategoryHttpService {
     create(productId: number, categoriesId: number[]): Observable<ProductCategory> {
         const token = window.localStorage.getItem('access_token');
         return this.http
-            .post<{ data: ProductCategory }>(this.getBaseUrl(productId), { categories: categoriesId }, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            }).pipe(
+            .post<{ data: ProductCategory }>(this.getBaseUrl(productId), { categories: categoriesId })
+            .pipe(
                 map(response => response.data)
             )
     }

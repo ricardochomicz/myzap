@@ -26,10 +26,10 @@ export class LoginComponent implements OnInit {
         this.authService.login(this.credentials)
             .subscribe({
                 next: () => {
-                    this.route.navigate(['categories/list'])
+                    this.route.navigate(['products/list'])
                 },
                 error: (erro) => {
-                    console.log(erro.statusText)
+                    console.log(erro)
                     this.toastr.error('Credenciais Inválidas!', erro.statusText);
                 }
             })

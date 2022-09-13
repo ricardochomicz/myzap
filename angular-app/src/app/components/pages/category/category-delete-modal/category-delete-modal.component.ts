@@ -46,7 +46,7 @@ export class CategoryDeleteModalComponent implements OnInit {
     }
 
     submit() {
-        this.categoryHttp.delete(this._categoryId)
+        this.categoryHttp.destroy(this._categoryId)
             .subscribe({
                 next: () => {
                     this.onSuccess.emit()

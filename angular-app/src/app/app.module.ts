@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
@@ -25,6 +25,12 @@ import { ProductDeleteModalComponent } from './components/pages/product/product-
 import { ProductCategoryListComponent } from './components/pages/product-category/product-category-list/product-category-list.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ProductCategoryNewComponent } from './components/pages/product-category/product-category-new/product-category-new.component';
+import { AuthInterceptorService } from './services/auth-interceptor.service';
+import { UserListComponent } from './components/pages/user/user-list/user-list.component';
+import { UserNewModalComponent } from './components/pages/user/user-new-modal/user-new-modal.component';
+import { UserEditModalComponent } from './components/pages/user/user-edit-modal/user-edit-modal.component';
+import { UserDeleteModalComponent } from './components/pages/user/user-delete-modal/user-delete-modal.component';
+
 
 @NgModule({
     declarations: [
@@ -42,7 +48,11 @@ import { ProductCategoryNewComponent } from './components/pages/product-category
         ProductEditModalComponent,
         ProductDeleteModalComponent,
         ProductCategoryListComponent,
-        ProductCategoryNewComponent
+        ProductCategoryNewComponent,
+        UserListComponent,
+        UserNewModalComponent,
+        UserEditModalComponent,
+        UserDeleteModalComponent
     ],
     imports: [
         BrowserModule,
@@ -56,7 +66,13 @@ import { ProductCategoryNewComponent } from './components/pages/product-category
         NgbModule,
         NgxPaginationModule
     ],
-    providers: [],
+    providers: [
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: AuthInterceptorService,
+            multi: true
+        }
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

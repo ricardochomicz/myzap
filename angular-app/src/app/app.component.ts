@@ -2,22 +2,27 @@ import { Component, OnInit } from '@angular/core';
 //@ts-ignore
 import pace from 'pace'
 import { AuthService } from './services/auth.service';
+import { HttpClient } from '@angular/common/http';
+import { User } from './models';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  title = 'angular-app';
+    title = 'angular-app';
 
-  constructor(public authService: AuthService){
-    
-  }
+    constructor(public authService: AuthService) {
 
-  ngOnInit(): void {
-    pace.start({
-      document: false
-    })
-  }
+    }
+
+
+    ngOnInit(): void {
+        pace.start({
+            document: false
+        })
+    }
+
+   
 }

@@ -30,5 +30,5 @@ export interface HttpResource<T> {
 
     update(id: number, data: T): Observable<T>;
 
-    delete(id: number): Observable<any>;
+    destroy(id: number): Observable<any>;
 }

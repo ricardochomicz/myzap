@@ -45,7 +45,7 @@ export class ProductDeleteModalComponent implements OnInit {
   }
 
   submit() {
-      this.productHttp.delete(this._productId)
+      this.productHttp.destroy(this._productId)
           .subscribe({
               next: () => {
                   this.onSuccess.emit()
