@@ -1,7 +1,7 @@
 const messages = {
     required: ':name é requerido',
-    minlength: ':name precisa ter o minímo de :min caracteres',
-    maxlength: ':name precisa ter o máximo de :max caracteres',
+    minlength: ':name precisa ter no minímo :min caracteres',
+    maxlength: ':name precisa ter no máximo :max caracteres',
     email: ':name não é um e-mail válido'
 }
 
@@ -14,10 +14,11 @@ export class ValidationMessage {
         let message = messages[error];
         //expressão regular
         //pega os dois pontos e letras de a - z
-        const tokens = message.match(/:\[a-z]+/g)
+        const tokens = message.match(/\:[a-z]+/g)
         //para cada token, recebe o indice do token
         //@ts-ignore
-        tokens.forEach((token, index) => message = message.replace(token, replaceToken[index]))
+        tokens.forEach((token, index) => message = message.replace(token, replaceTokens[index]))
+        
         return message
     }
 }

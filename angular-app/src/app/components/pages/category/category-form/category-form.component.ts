@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
+import fieldsOptions from './category-field-options';
 
 @Component({
     selector: 'category-form',
@@ -16,8 +17,16 @@ export class CategoryFormComponent implements OnInit {
     ngOnInit(): void {
     }
 
-    ngOnChanges(){
+    ngOnChanges() {
         this.changeRef.detectChanges()
+    }
+
+    get fieldOptions(): any {
+        return fieldsOptions
+    }
+
+    get field() {
+        return this.fieldOptions.name
     }
 
 }

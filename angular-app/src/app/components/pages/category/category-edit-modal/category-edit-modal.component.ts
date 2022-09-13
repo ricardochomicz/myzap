@@ -3,7 +3,7 @@ import { Component, OnInit, Output, ViewChild, EventEmitter, Input } from '@angu
 import { ModalComponent } from './../../../bootstrap/modal/modal.component';
 import { CategoryHttpService } from './../../../../services/http/category-http.service';
 import { ToastrService } from 'ngx-toastr';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
     selector: 'category-edit-modal',
@@ -29,7 +29,7 @@ export class CategoryEditModalComponent implements OnInit {
         private formBuilder: FormBuilder
     ) {
         this.form = this.formBuilder.group({
-            name: '',
+            name: ['', [Validators.required, Validators.maxLength(100)]],
             active: true
         })
     }

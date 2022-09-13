@@ -1,5 +1,5 @@
-<ul class="list-unstyled" *ngIf="showError">
+<ul class="list-unstyled" *ngIf="showError()">
     <li *ngFor="let key of errorKeys">
-        {{key}}
+        {{getMessage(key)}}
     </li>
 </ul>

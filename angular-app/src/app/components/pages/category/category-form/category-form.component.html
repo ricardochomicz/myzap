@@ -1,8 +1,9 @@
 <div class="form-group" [formGroup]="form">
-    <label for="name">Nome</label>
-    <input type="text" class="form-control" isInvalid id="name" 
-        required formControlName="name">
-        <field-error [field]="form.get('name')"></field-error>
+    <label [for]="field.id">{{field.label}}</label>
+    <input type="text" class="form-control" isInvalid formControlName="name" [id]="field.id">
+    <field-error [field]="form.get('name')" 
+                 [label]="field.label"
+                 [messages]="field.validationMessage"></field-error>
 </div>
 <div class="form-group mt-4" [formGroup]="form" *ngIf="form.get('active')">
     <label class="switch">
