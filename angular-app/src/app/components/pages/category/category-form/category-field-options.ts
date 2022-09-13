@@ -6,7 +6,7 @@ const fieldsOptions: FieldsOptions = {
         id: 'name',
         label: 'Nome',
         validationMessage: {
-            maxlength: 15
+            maxlength: 100
         }
     },
     active: {

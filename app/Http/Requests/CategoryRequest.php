@@ -27,4 +27,11 @@ class CategoryRequest extends FormRequest
             'name' => 'required|string'
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'name.required' => 'O campo nome é requerido'
+        ];
+    }
 }

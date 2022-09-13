@@ -21,7 +21,7 @@ export class ModalComponent implements OnInit {
         jQueryElement.find('[modal-footer]').addClass('modal-footer')
 
         jQueryElement.on('hidden.bs.modal', function (e: any) {
-            console.log(e)
+            // console.log(e)
         })
     }
 

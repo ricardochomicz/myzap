@@ -1,8 +1,10 @@
 <form (submit)="submit()">
     <modal (onHide)="hideModal($event)">
-
         <h5 modal-title>Editar Categoria</h5>
         <div modal-body>
+            <card-error *ngIf="showErrors()">
+                <list-errors [errors]="errors"></list-errors>
+            </card-error>
             <overlay [(show)]="showOverlay"><strong>Carregando Categoria</strong></overlay>
             <category-form [form]="form"></category-form>
         </div>

@@ -34,6 +34,8 @@ import { CategorySearchComponent } from './components/pages/category/category-se
 import { CategoryFormComponent } from './components/pages/category/category-form/category-form.component';
 import { FieldErrorComponent } from './components/bootstrap/field-error/field-error.component';
 import { IsInvalidDirective } from './directives/is-invalid.directive';
+import { ListErrorsComponent } from './components/bootstrap/list-errors/list-errors.component';
+import { CardErrorComponent } from './components/bootstrap/card-error/card-error.component';
 
 
 @NgModule({
@@ -60,7 +62,9 @@ import { IsInvalidDirective } from './directives/is-invalid.directive';
         CategorySearchComponent,
         CategoryFormComponent,
         FieldErrorComponent,
-        IsInvalidDirective
+        IsInvalidDirective,
+        ListErrorsComponent,
+        CardErrorComponent
     ],
     imports: [
         BrowserModule,

@@ -2,11 +2,16 @@
     <modal (onHide)="hideModal($event)">
         <h5 modal-title>Nova Categoria</h5>
         <div modal-body>
+            <card-error *ngIf="showErrors()">
+                <list-errors [errors]="errors"></list-errors>
+            </card-error>
+            
             <category-form [form]="form"></category-form>
         </div>
         <div modal-footer>
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="hideModal($event)">Fechar</button>
             <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Salvar</button>
         </div>
     </modal>
 </form>
+

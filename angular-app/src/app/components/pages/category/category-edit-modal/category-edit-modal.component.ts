@@ -15,6 +15,8 @@ export class CategoryEditModalComponent implements OnInit {
     form: FormGroup
     _categoryId!: number;
 
+    errors = {}
+
     showOverlay = true;
 
     @ViewChild(ModalComponent) modal!: ModalComponent
@@ -29,7 +31,7 @@ export class CategoryEditModalComponent implements OnInit {
         private formBuilder: FormBuilder
     ) {
         this.form = this.formBuilder.group({
-            name: ['', [Validators.required, Validators.maxLength(100)]],
+            name: ['', [Validators.required]],
             active: true
         })
     }
@@ -47,8 +49,9 @@ export class CategoryEditModalComponent implements OnInit {
                         this.form.patchValue(response)
                         this.showOverlay = false
                     },
-                    error: (error) => {
-                        this.toastr.error('Erro ao carregar categorias!', error.status + ' ' + error.statusText);
+                    error: (er) => {
+
+                        this.toastr.error('Erro ao carregar categorias!', er.status + ' ' + er.statusText);
                     }
                 })
         }
@@ -61,8 +64,11 @@ export class CategoryEditModalComponent implements OnInit {
                     this.onSuccess.emit(category)
                     this.modal.hide()
                 },
-                error: (error) => {
-                    this.onError.emit(error)
+                error: (err) => {
+                    if (err.status === 422) {
+                        this.errors = err.error.errors
+                    }
+                    this.onError.emit(err)
                 }
             })
     }
@@ -72,8 +78,12 @@ export class CategoryEditModalComponent implements OnInit {
         this.showOverlay = true
     }
 
+    showErrors() {
+        return Object.keys(this.errors).length != 0
+    }
+
     hideModal($event: any) {
-        console.log($event)
+        // console.log($event)
     }
 
 }

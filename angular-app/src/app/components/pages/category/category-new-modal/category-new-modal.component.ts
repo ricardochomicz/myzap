@@ -14,6 +14,8 @@ export class CategoryNewModalComponent implements OnInit {
 
     form: FormGroup
 
+    errors = {}
+
     @ViewChild(ModalComponent)
     modal!: ModalComponent
 
@@ -41,8 +43,11 @@ export class CategoryNewModalComponent implements OnInit {
                     this.onSuccess.emit(category)
                     this.modal.hide()
                 },
-                error: (error) => {
-                    this.onError.emit(error)
+                error: (er) => {
+                    if (er.status === 422) {
+                        this.errors = er.error.errors
+                    }
+                    this.onError.emit(er)
                 }
             })
     }
@@ -51,8 +56,13 @@ export class CategoryNewModalComponent implements OnInit {
         this.modal.show()
     }
 
+    showErrors() {
+        return Object.keys(this.errors).length != 0
+    }
+
     hideModal($event: any) {
-        console.log($event)
+        
+        this.form.reset()
     }
 
 }
