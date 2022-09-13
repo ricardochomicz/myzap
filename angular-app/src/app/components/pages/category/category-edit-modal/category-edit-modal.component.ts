@@ -1,8 +1,9 @@
-import { HttpErrorResponse, HttpClient } from '@angular/common/http';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit, Output, ViewChild, EventEmitter, Input } from '@angular/core';
 import { ModalComponent } from './../../../bootstrap/modal/modal.component';
 import { CategoryHttpService } from './../../../../services/http/category-http.service';
 import { ToastrService } from 'ngx-toastr';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
     selector: 'category-edit-modal',
@@ -11,12 +12,8 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class CategoryEditModalComponent implements OnInit {
 
+    form: FormGroup
     _categoryId!: number;
-
-    category = {
-        name: '',
-        active: true
-    }
 
     showOverlay = true;
 
@@ -25,10 +22,17 @@ export class CategoryEditModalComponent implements OnInit {
     @Output() onSuccess: EventEmitter<any> = new EventEmitter<any>()
     @Output() onError: EventEmitter<HttpErrorResponse> = new EventEmitter<HttpErrorResponse>()
 
+
     constructor(
         private categoryHttp: CategoryHttpService,
-        private toastr: ToastrService
-    ) { }
+        private toastr: ToastrService,
+        private formBuilder: FormBuilder
+    ) {
+        this.form = this.formBuilder.group({
+            name: '',
+            active: true
+        })
+    }
 
     ngOnInit(): void {
     }
@@ -40,8 +44,7 @@ export class CategoryEditModalComponent implements OnInit {
             this.categoryHttp.get(value)
                 .subscribe({
                     next: (response) => {
-                        //@ts-ignore
-                        this.category = response
+                        this.form.patchValue(response)
                         this.showOverlay = false
                     },
                     error: (error) => {
@@ -52,7 +55,7 @@ export class CategoryEditModalComponent implements OnInit {
     }
 
     submit() {
-        this.categoryHttp.update(this._categoryId, this.category)
+        this.categoryHttp.update(this._categoryId, this.form.value)
             .subscribe({
                 next: (category) => {
                     this.onSuccess.emit(category)

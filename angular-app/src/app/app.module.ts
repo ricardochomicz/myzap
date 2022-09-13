@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -32,6 +32,7 @@ import { UserEditModalComponent } from './components/pages/user/user-edit-modal/
 import { UserDeleteModalComponent } from './components/pages/user/user-delete-modal/user-delete-modal.component';
 import { CategorySearchComponent } from './components/pages/category/category-search/category-search.component';
 import { CategoryFormComponent } from './components/pages/category/category-form/category-form.component';
+import { FieldErrorComponent } from './components/bootstrap/field-error/field-error.component';
 
 
 @NgModule({
@@ -56,13 +57,15 @@ import { CategoryFormComponent } from './components/pages/category/category-form
         UserEditModalComponent,
         UserDeleteModalComponent,
         CategorySearchComponent,
-        CategoryFormComponent
+        CategoryFormComponent,
+        FieldErrorComponent
     ],
     imports: [
         BrowserModule,
         HttpClientModule,
         AppRoutingModule,
         FormsModule,
+        ReactiveFormsModule,
         BrowserAnimationsModule,
         ToastrModule.forRoot({
             positionClass: 'toast-bottom-right',

@@ -1,5 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { Category } from './../../../../models';
+import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
+import { FormGroup, FormControl } from '@angular/forms';
 
 @Component({
     selector: 'category-form',
@@ -9,14 +9,15 @@ import { Category } from './../../../../models';
 export class CategoryFormComponent implements OnInit {
 
     @Input()
-    category: Category = {
-        name: '',
-        active: true
-    }
+    form!: FormGroup
 
-    constructor() { }
+    constructor(private changeRef: ChangeDetectorRef) { }
 
     ngOnInit(): void {
+    }
+
+    ngOnChanges(){
+        this.changeRef.detectChanges()
     }
 
 }

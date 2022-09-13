@@ -4,8 +4,7 @@
         <h5 modal-title>Editar Categoria</h5>
         <div modal-body>
             <overlay [(show)]="showOverlay"><strong>Carregando Categoria</strong></overlay>
-            <category-form [category]="category"></category-form>
-
+            <category-form [form]="form"></category-form>
         </div>
         <div modal-footer>
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
