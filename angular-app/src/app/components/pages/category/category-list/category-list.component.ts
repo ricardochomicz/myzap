@@ -26,6 +26,8 @@ export class CategoryListComponent implements OnInit {
         itemsPerPage: 5
     }
 
+    searchText!: string
+
     showOverlay = true;
 
     @ViewChild(CategoryNewModalComponent)
@@ -53,7 +55,10 @@ export class CategoryListComponent implements OnInit {
     }
 
     getCategories() {
-        this.categoryHttp.list({ page: this.pagination.page })
+        this.categoryHttp.list({
+             page: this.pagination.page,
+             search: this.searchText
+            })
             .subscribe({
                 next: (response) => {
                     this.categories = response.data
@@ -69,6 +74,11 @@ export class CategoryListComponent implements OnInit {
 
     pageChanged(page: number) {
         this.pagination.page = page
+        this.getCategories()
+    }
+
+    search(search: any) {
+        this.searchText = search
         this.getCategories()
     }
 

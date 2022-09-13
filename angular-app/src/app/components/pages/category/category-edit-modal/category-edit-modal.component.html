@@ -4,16 +4,7 @@
         <h5 modal-title>Editar Categoria</h5>
         <div modal-body>
             <overlay [(show)]="showOverlay"><strong>Carregando Categoria</strong></overlay>
-            <div class="form-group">
-                <label for="name">Nome</label>
-                <input type="text" class="form-control" id="name" name="name" required [(ngModel)]="category.name">
-            </div>
-            <div class="form-group mt-4">
-                <label class="switch">
-                    <input type="checkbox" name="active" [(ngModel)]="category.active">
-                    <span class="slider round"></span>
-                </label>
-            </div>
+            <category-form [category]="category"></category-form>
 
         </div>
         <div modal-footer>

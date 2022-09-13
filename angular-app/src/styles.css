@@ -2,6 +2,10 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Nunito&family=Roboto&display=swap');
 
+a {
+  text-decoration: none !important;
+}
+
 tr>td {
   vertical-align: middle !important;
 }
