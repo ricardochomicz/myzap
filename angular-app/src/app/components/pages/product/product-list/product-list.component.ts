@@ -16,6 +16,8 @@ import { ProductDeleteService } from './product-delete.service';
 })
 export class ProductListComponent implements OnInit {
 
+    searchText!: string
+
     products: Array<Product> = [];
 
     productId!: any
@@ -53,7 +55,10 @@ export class ProductListComponent implements OnInit {
     }
 
     getProducts() {
-        this.productHttp.list({ page: this.pagination.page })
+        this.productHttp.list({
+            page: this.pagination.page,
+            search: this.searchText
+        })
             .subscribe({
                 next: (response) => {
                     this.products = response.data
@@ -69,6 +74,11 @@ export class ProductListComponent implements OnInit {
 
     pageChanged(page: number) {
         this.pagination.page = page
+        this.getProducts()
+    }
+
+    search(search: any) {
+        this.searchText = search
         this.getProducts()
     }
 

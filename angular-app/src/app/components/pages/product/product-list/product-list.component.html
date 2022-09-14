@@ -9,7 +9,12 @@
         </div>
     </h5>
     <div class="card-body">
-
+        <h6><i class="fas fa-filter"></i> Filtro</h6>
+        <div class="row">
+            <div class="form-group col-sm-3">
+                <product-search (onSearch)="search($event)"></product-search>
+            </div>
+        </div>
         <div class="table-responsive">
             <table class="table table-borderless">
                 <thead>

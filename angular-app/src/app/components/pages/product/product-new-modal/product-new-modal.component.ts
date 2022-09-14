@@ -2,6 +2,7 @@ import { Component, OnInit, Output, ViewChild, EventEmitter } from '@angular/cor
 import { ModalComponent } from './../../../bootstrap/modal/modal.component';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ProductHttpService } from './../../../../services/http/product-http.service';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
     selector: 'product-new-modal',
@@ -9,11 +10,9 @@ import { ProductHttpService } from './../../../../services/http/product-http.ser
 })
 export class ProductNewModalComponent implements OnInit {
 
-    product = {
-        name: '',
-        price: '',
-        description: ''
-    }
+    form: FormGroup
+
+    errors = {}
 
     @ViewChild(ModalComponent)
     modal!: ModalComponent
@@ -21,26 +20,40 @@ export class ProductNewModalComponent implements OnInit {
     @Output() onSuccess: EventEmitter<any> = new EventEmitter<any>()
     @Output() onError: EventEmitter<HttpErrorResponse> = new EventEmitter<HttpErrorResponse>()
 
-    constructor(private productHttp: ProductHttpService) { }
+    constructor(private productHttp: ProductHttpService, private formBuilder: FormBuilder) {
+        this.form = this.formBuilder.group({
+            name: ['', [Validators.required]],
+            price: ['', [Validators.required]],
+            description: ''
+        })
+    }
 
     ngOnInit(): void {
     }
 
     submit() {
-        this.productHttp.create(this.product)
+        this.productHttp.create(this.form.value)
             .subscribe({
                 next: (product) => {
+                    this.form.reset()
                     this.onSuccess.emit(product)
                     this.modal.hide()
                 },
-                error: (error) => {
-                    this.onError.emit(error)
+                error: (err) => {
+                    if (err.status === 422) {
+                        this.errors = err.error.errors
+                    }
+                    this.onError.emit(err)
                 }
             })
     }
 
     showModal() {
         this.modal.show()
+    }
+
+    showErrors() {
+        return Object.keys(this.errors).length != 0
     }
 
     hideModal($event: any) {

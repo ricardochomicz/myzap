@@ -63,6 +63,7 @@ export class CategoryEditModalComponent implements OnInit {
                 next: (category) => {
                     this.onSuccess.emit(category)
                     this.modal.hide()
+                    this.showOverlay = false
                 },
                 error: (err) => {
                     if (err.status === 422) {

@@ -30,4 +30,12 @@ class Product extends Model
     {
         return $this->hasMany(ProductPhoto::class);
     }
+
+    public function scopeFilter($query, $params)
+    {
+        return $query->where(function ($query) use ($params) {
+            $query->where('name', 'LIKE', "%{$params}%")
+                ->orWhere('active', $params);
+        });
+    }
 }

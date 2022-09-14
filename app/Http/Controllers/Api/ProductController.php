@@ -20,10 +20,11 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
+        $search = $request->input('search');
         $query = Product::query();
         //acrescenta o trashed se for passado parametro
         $query = $this->onlyTrashedIfRequest($request, $query);
-        $products = $query->paginate();
+        $products = $query->filter($search)->paginate();
         return ProductResource::collection($products);
     }
 

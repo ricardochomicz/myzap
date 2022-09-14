@@ -3,6 +3,7 @@ import { ModalComponent } from './../../../bootstrap/modal/modal.component';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ProductHttpService } from './../../../../services/http/product-http.service';
 import { ToastrService } from 'ngx-toastr';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
     selector: 'product-edit-modal',
@@ -10,14 +11,11 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class ProductEditModalComponent implements OnInit {
 
-    _productId!: number;
+    form: FormGroup
 
-    product = {
-        name: '',
-        price: '',
-        description: '',
-        active: true
-    }
+    errors = {}
+
+    _productId!: number;
 
     showOverlay = true;
 
@@ -27,7 +25,15 @@ export class ProductEditModalComponent implements OnInit {
     @Output() onError: EventEmitter<HttpErrorResponse> = new EventEmitter<HttpErrorResponse>()
 
     constructor(private productHttp: ProductHttpService,
-        private toastr: ToastrService) { }
+        private toastr: ToastrService,
+        private formBuilder: FormBuilder) {
+        this.form = this.formBuilder.group({
+            name: ['', [Validators.required]],
+            price: ['', [Validators.required]],
+            description: '',
+            active: true
+        })
+    }
 
     ngOnInit(): void {
     }
@@ -40,7 +46,7 @@ export class ProductEditModalComponent implements OnInit {
                 .subscribe({
                     next: (response) => {
                         //@ts-ignore
-                        this.product = response
+                        this.form.patchValue(response)
                         this.showOverlay = false
                     },
                     error: (error) => {
@@ -51,11 +57,12 @@ export class ProductEditModalComponent implements OnInit {
     }
 
     submit() {
-        this.productHttp.update(this._productId, this.product)
+        this.productHttp.update(this._productId, this.form.value)
             .subscribe({
                 next: (product) => {
                     this.onSuccess.emit(product)
                     this.modal.hide()
+                    this.showOverlay = false
                 },
                 error: (error) => {
                     this.onError.emit(error)
@@ -66,6 +73,10 @@ export class ProductEditModalComponent implements OnInit {
     showModal() {
         this.modal.show()
         this.showOverlay = true
+    }
+
+    showErrors() {
+        return Object.keys(this.errors).length != 0
     }
 
     hideModal($event: any) {

@@ -36,6 +36,11 @@ import { FieldErrorComponent } from './components/bootstrap/field-error/field-er
 import { IsInvalidDirective } from './directives/is-invalid.directive';
 import { ListErrorsComponent } from './components/bootstrap/list-errors/list-errors.component';
 import { CardErrorComponent } from './components/bootstrap/card-error/card-error.component';
+import { ProductFormComponent } from './components/pages/product/product-form/product-form.component';
+import { ProductInputListComponent } from './components/pages/product-input/product-input-list/product-input-list.component';
+import { ProductInputSearchComponent } from './components/pages/product-input/product-input-search/product-input-search.component';
+import { ProductSearchComponent } from './components/pages/product/product-search/product-search.component';
+import { ProductInputNewModalComponent } from './components/pages/product-input/product-input-new-modal/product-input-new-modal.component';
 
 
 @NgModule({
@@ -64,7 +69,12 @@ import { CardErrorComponent } from './components/bootstrap/card-error/card-error
         FieldErrorComponent,
         IsInvalidDirective,
         ListErrorsComponent,
-        CardErrorComponent
+        CardErrorComponent,
+        ProductFormComponent,
+        ProductInputListComponent,
+        ProductInputSearchComponent,
+        ProductSearchComponent,
+        ProductInputNewModalComponent
     ],
     imports: [
         BrowserModule,

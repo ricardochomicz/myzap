@@ -10,9 +10,10 @@ use Illuminate\Http\Request;
 
 class ProductInputController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $inputs = ProductInput::with('product')->paginate();
+        $search = $request->input('search');
+        $inputs = ProductInput::with('product')->filter($search)->paginate();
         return ProductInputResource::collection($inputs);
     }
 
@@ -20,7 +21,6 @@ class ProductInputController extends Controller
     {
         $input = ProductInput::create($request->all());
         return new ProductInputResource($input);
-
     }
 
     public function show(ProductInput $input)

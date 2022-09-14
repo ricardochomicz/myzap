@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { HttpClient } from '@angular/common/http';
-import { tap } from 'rxjs/operators';
+import { tap, windowCount } from 'rxjs/operators';
 import { User } from '../models';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { environment } from './../../environments/environment';
 
 
@@ -14,19 +14,24 @@ const TOKEN_KEY = 'access_token';
 })
 export class AuthService {
 
+    public isAuthenticated = new Subject<boolean>()
+
     constructor(private http: HttpClient) {
-
+        this.isAuthenticated.next(false)
     }
 
-    login(user: { email: string, password: string }): Observable<{ token: string }> {
-        return this.http
-            .post<{ token: string, user: User }>(`${environment.api.url}/login`, user)
-            .pipe(
-                tap(response => {
-                    this.setToken(response.token)
-                })
-            )
-    }
+    // login(user: { email: string, password: string }): Observable<{ token: string }> {
+    //     return this.http
+    //         .post<{ token: string, user: User }>(`${environment.api.url}/login`, user)
+    //         .pipe(
+    //             tap(response => {
+    //                 if(response){
+    //                     this.setToken(response.token)
+    //                 }
+
+    //             })
+    //         )
+    // }
 
 
     setToken(token: string) {
@@ -41,8 +46,17 @@ export class AuthService {
     //@ts-ignore
     isAuth(): boolean {
         //TODO: Check token expiry and other security checks    
-        return !!localStorage.getItem('access_token');
+        //return !!localStorage.getItem('access_token');
+        if (this.getToken()) {
+            this.isAuthenticated.next(true)
+            return true
+        } else {
+            this.isAuthenticated.next(false)
+            return false
+        }
     }
+
+
 
 
     logout(): Observable<any> {

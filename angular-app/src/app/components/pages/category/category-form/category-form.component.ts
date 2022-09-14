@@ -26,7 +26,7 @@ export class CategoryFormComponent implements OnInit {
     }
 
     get field() {
-        return this.fieldOptions.name
+        return this.fieldOptions
     }
 
 }

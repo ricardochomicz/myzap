@@ -10,7 +10,7 @@
         </div>
         <div modal-footer>
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-            <button type="submit" class="btn btn-primary">Salvar</button>
+            <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Salvar</button>
         </div>
     </modal>
 </form>

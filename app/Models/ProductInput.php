@@ -15,4 +15,15 @@ class ProductInput extends Model
     {
         return $this->belongsTo(Product::class);
     }
+
+    public function scopeFilter($query, $params)
+    {
+        return $query->whereHas('product', function ($query) use ($params) {
+            $query->where('name', 'LIKE', "%{$params}%");
+        });
+
+        // return $query->product()->where(function ($query) use ($params) {
+        //     $query->where('name', 'LIKE', "%{$params}%");
+        // });
+    }
 }

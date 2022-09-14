@@ -34,8 +34,7 @@ export class CategoryDeleteModalComponent implements OnInit {
             this.categoryHttp.get(value)
                 .subscribe({
                     next: (response) => {
-                        //@ts-ignore
-                        this.category = response.data
+                        this.category = response
                         this.showOverlay = false
                     },
                     error: (error) => {
@@ -51,6 +50,7 @@ export class CategoryDeleteModalComponent implements OnInit {
                 next: () => {
                     this.onSuccess.emit()
                     this.modal.hide()
+                    this.showOverlay = false
                 },
                 error: (error) => {
                     this.onError.emit(error)
