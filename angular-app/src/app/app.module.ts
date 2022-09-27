@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgxPaginationModule } from 'ngx-pagination';
@@ -41,7 +42,9 @@ import { ProductInputListComponent } from './components/pages/product-input/prod
 import { ProductInputSearchComponent } from './components/pages/product-input/product-input-search/product-input-search.component';
 import { ProductSearchComponent } from './components/pages/product/product-search/product-search.component';
 import { ProductInputNewModalComponent } from './components/pages/product-input/product-input-new-modal/product-input-new-modal.component';
-
+import { ProductInputFormComponent } from './components/pages/product-input/product-input-form/product-input-form.component';
+import { NgSelect2Module } from 'ng-select2';
+import { UserFormComponent } from './components/pages/user/user-form/user-form.component';
 
 @NgModule({
     declarations: [
@@ -74,12 +77,15 @@ import { ProductInputNewModalComponent } from './components/pages/product-input/
         ProductInputListComponent,
         ProductInputSearchComponent,
         ProductSearchComponent,
-        ProductInputNewModalComponent
+        ProductInputNewModalComponent,
+        ProductInputFormComponent,
+        UserFormComponent
     ],
     imports: [
         BrowserModule,
         HttpClientModule,
         AppRoutingModule,
+        NgSelectModule,
         FormsModule,
         ReactiveFormsModule,
         BrowserAnimationsModule,
@@ -87,7 +93,8 @@ import { ProductInputNewModalComponent } from './components/pages/product-input/
             positionClass: 'toast-bottom-right',
         }),
         NgbModule,
-        NgxPaginationModule
+        NgxPaginationModule,
+        NgSelect2Module,
     ],
     providers: [
         {

@@ -50,4 +50,14 @@ class User extends Authenticatable
         !isset($attributes['password']) ?: $attributes['password'] = bcrypt($attributes['password']);
         return parent::fill($attributes);
     }
+
+    public function setNameAttribute($value)
+    {
+        return $this->attributes['name'] = mb_convert_case($value, MB_CASE_TITLE, 'UTF-8');
+    }
+
+    public function setEmailAttribute($value)
+    {
+        return $this->attributes['email'] = mb_strtolower($value);
+    }
 }

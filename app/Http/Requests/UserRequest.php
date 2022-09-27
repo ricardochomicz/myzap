@@ -25,12 +25,13 @@ class UserRequest extends FormRequest
     {
         $rules = [
             'name' => 'required|max:255',
-            'email' => 'required|max:255|email|unique:users,email,' . $this->user->id,
+            'email' => 'required|max:255|email|unique:users,email',
             'password' => 'required|min:6|max:16'
         ];
 
         if ($this->method() == 'PUT') {
-            $rules['password'] = 'nullable|min:6|max:16';
+            $rules['email'] = 'required|max:255|email';
+            $rules['password'] = 'nullable';
         }
 
         return $rules;

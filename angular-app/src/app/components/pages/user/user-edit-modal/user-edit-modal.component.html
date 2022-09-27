@@ -3,10 +3,7 @@
         <h5 modal-title>Editar Usuário</h5>
         <div modal-body>
             <overlay [(show)]="showOverlay"><strong>Carregando Usuário</strong></overlay>
-            <label for="name">Nome</label>
-            <input type="text" class="form-control" id="name" name="name" required [(ngModel)]="user.name">
-            <label for="email">E-mail</label>
-            <input type="text" class="form-control" id="email" name="email" required [(ngModel)]="user.email">
+            <user-form [form]="form"></user-form>
         </div>
         <div modal-footer>
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>

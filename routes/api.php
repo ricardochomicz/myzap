@@ -23,6 +23,7 @@ Route::group(['as' => 'api.'], function () {
         Route::name('logout')->get('logout', [AuthController::class, 'logout']);
         Route::resource('categories', CategoryController::class, ['except' => ['edit', 'create']]);
         Route::patch('products/{product}/restore', [ProductController::class, 'restore']);
+        Route::get('products-all', [ProductController::class, 'getProductsAll']);
         Route::resource('products', ProductController::class, ['except' => ['edit', 'create']]);
         Route::resource('product.categories', ProductCategoryController::class, ['only' => ['index', 'store', 'destroy']]);
         Route::resource('products.photos', ProductPhotoController::class, ['except' => ['create', 'edit']]);

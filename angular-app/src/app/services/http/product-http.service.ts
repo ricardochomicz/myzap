@@ -20,7 +20,7 @@ export class ProductHttpService implements HttpResource<Product> {
         const params = new HttpParams({
             fromObject: sParams
         })
-        return this.http.get<{ data: Product[]; meta: any; }>(this.baseUrl, {
+        return this.http.get<{ data: Array<Product>, meta: any; }>(this.baseUrl, {
             params
         })
     }

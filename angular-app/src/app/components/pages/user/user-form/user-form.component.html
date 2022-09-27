@@ -1,0 +1,14 @@
+<div class="form-group" [formGroup]="form">
+    <label [for]="field.name.id">{{field.name.label}}</label>
+    <input type="text" class="form-control" [id]="field.name.id" formControlName="name">
+    <field-error [field]="form.get('name')" [label]="field.name.label"></field-error>
+</div>
+<div class="form-group" [formGroup]="form">
+    <label [for]="field.email.id">{{field.email.label}}</label>
+    <input type="text" class="form-control" [id]="field.email.id" name="email" formControlName="email">
+    <field-error [field]="form.get('email')" [label]="field.name.label"></field-error>
+</div>
+<div class="form-group" [formGroup]="form">
+    <label [for]="field.password.id">{{field.password.label}}</label>
+    <input type="text" class="form-control" [id]="field.password.id" name="password" formControlName="password">
+</div>

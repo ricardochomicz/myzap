@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 //@ts-ignore
 import pace from 'pace'
 import { AuthService } from './services/auth.service';
@@ -13,16 +13,27 @@ import { User } from './models';
 export class AppComponent implements OnInit {
     title = 'angular-app';
 
+    showMenu: boolean = false;
+
     constructor(public authService: AuthService) {
 
     }
 
 
     ngOnInit(): void {
+        this.authService.showMenu.subscribe(
+            show => this.showMenu = show
+        );
         pace.start({
             document: false
-        })
+        });
     }
 
-   
+    // @HostListener('window:beforeunload', ['$event'])
+    // public beforeunloadHandler($event: any) {
+    //     alert('lascou');
+    // }
+
+
+
 }

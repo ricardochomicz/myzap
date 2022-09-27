@@ -61,6 +61,9 @@ class UserController extends Controller
      */
     public function update(UserRequest $request, User $user)
     {
+        if (!$request->password) {
+	        unset($request['password']);
+		}
         $user->fill($request->all());
         $user->save();
         return new UserResource($user);

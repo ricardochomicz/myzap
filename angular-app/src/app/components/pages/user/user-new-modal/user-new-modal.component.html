@@ -2,16 +2,12 @@
     <modal (onHide)="hideModal($event)">
         <h5 modal-title>Novo Usuário</h5>
         <div modal-body>
-            <label for="name">Nome</label>
-            <input type="text" class="form-control" id="name" name="name" required [(ngModel)]="user.name">
-            <label for="email">E-mail</label>
-            <input type="text" class="form-control" id="email" name="email" required [(ngModel)]="user.email">
-            <label for="password">Senha</label>
-            <input type="text" class="form-control" id="password" name="password" required [(ngModel)]="user.password">
+            <overlay [(show)]="showOverlay"><strong>Aguarde...</strong></overlay>
+            <user-form [form]="form"></user-form>
         </div>
         <div modal-footer>
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-            <button type="submit" class="btn btn-primary">Salvar</button>
+            <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Salvar</button>
         </div>
     </modal>
 </form>

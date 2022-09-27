@@ -7,6 +7,8 @@ import { AuthService } from './../../../services/auth.service';
 import { Observable } from 'rxjs/internal/Observable';
 import { User } from 'src/app/models';
 
+const TOKEN_KEY = 'token';
+
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
@@ -28,19 +30,17 @@ export class LoginComponent implements OnInit {
 
     }
 
-    login() {
-        this.http.post<{ token: string, user: User }>(`${environment.api.url}/login`, this.credentials)
-            .subscribe({
-                next: (response) => {
-                    window.localStorage.setItem('access_token', response.token)
-                    this.route.navigate(['products/list'])
-                },
-                error: (erro) => {
-                    console.log(erro)
-                    this.toastr.error('Credenciais Inválidas!', erro.statusText);
-                }
-            })
 
+    login() {
+        this.authService.login(this.credentials)
+            .subscribe({
+                next: () => {
+                    this.route.navigate(['products/list']);
+                },
+                error: (error) => {
+                    this.toastr.error('Credenciais inválidas!');
+                }
+            });
     }
 
 }

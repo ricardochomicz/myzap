@@ -25,6 +25,7 @@ class ProductController extends Controller
         //acrescenta o trashed se for passado parametro
         $query = $this->onlyTrashedIfRequest($request, $query);
         $products = $query->filter($search)->paginate();
+
         return ProductResource::collection($products);
     }
 
@@ -79,11 +80,16 @@ class ProductController extends Controller
         return response()->json([], 204);
     }
 
-    
+
     public function restore(Product $product)
     {
         $product->restore();
         return response()->json([], 204);
     }
-    
+
+    public function getProductsAll()
+    {
+        $products = Product::get();
+        return ProductResource::collection($products);
+    }
 }

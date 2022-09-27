@@ -1,41 +1,40 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { HttpClient } from '@angular/common/http';
-import { tap, windowCount } from 'rxjs/operators';
-import { User } from '../models';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { tap } from 'rxjs/operators';
+
+import { Subject } from 'rxjs';
 import { environment } from './../../environments/environment';
+import { User } from './../models';
 
 
-const TOKEN_KEY = 'access_token';
+const TOKEN_KEY = 'token';
 
 @Injectable({
     providedIn: 'root'
 })
 export class AuthService {
 
-    public isAuthenticated = new Subject<boolean>()
+    private isAuthenticated: boolean = false;
+    showMenu = new EventEmitter<boolean>();
 
     constructor(private http: HttpClient) {
-        this.isAuthenticated.next(false)
+
     }
 
-    // login(user: { email: string, password: string }): Observable<{ token: string }> {
-    //     return this.http
-    //         .post<{ token: string, user: User }>(`${environment.api.url}/login`, user)
-    //         .pipe(
-    //             tap(response => {
-    //                 if(response){
-    //                     this.setToken(response.token)
-    //                 }
-
-    //             })
-    //         )
-    // }
+    login(user: { email: string, password: string }): Observable<{ token: string }> {
+        return this.http
+            .post<{ token: string, user: User }>(`${environment.api.url}/login`, user)
+            .pipe(
+                tap(response => {
+                    this.setToken(response.token);                   
+                })
+            )
+    }
 
 
     setToken(token: string) {
-        // this.setUserFromToken(token)
+        //this.setUserFromToken()
         token ? window.localStorage.setItem(TOKEN_KEY, token) : window.localStorage.removeItem(TOKEN_KEY)
     }
 
@@ -43,24 +42,18 @@ export class AuthService {
         return window.localStorage.getItem(TOKEN_KEY);
     }
 
+    // setUserFromToken() {
+    //     this.isAuthenticated = true
+    // }
+
     //@ts-ignore
     isAuth(): boolean {
-        //TODO: Check token expiry and other security checks    
-        //return !!localStorage.getItem('access_token');
-        if (this.getToken()) {
-            this.isAuthenticated.next(true)
-            return true
-        } else {
-            this.isAuthenticated.next(false)
-            return false
-        }
+        //TODO: Check token expiry and other security checks       
+        return !!localStorage.getItem(TOKEN_KEY);
     }
 
 
-
-
     logout(): Observable<any> {
-        const token = window.localStorage.getItem('access_token')
         return this.http
             .get<{ token: string }>(`${environment.api.url}/logout`)
             .pipe(

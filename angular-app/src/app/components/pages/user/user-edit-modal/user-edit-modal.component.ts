@@ -3,6 +3,7 @@ import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angu
 import { ToastrService } from 'ngx-toastr';
 import { UserHttpService } from 'src/app/services/http/user-http.service';
 import { ModalComponent } from './../../../bootstrap/modal/modal.component';
+import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 
 @Component({
     selector: 'user-edit-modal',
@@ -11,13 +12,8 @@ import { ModalComponent } from './../../../bootstrap/modal/modal.component';
 })
 export class UserEditModalComponent implements OnInit {
 
+    form: FormGroup
     _userId!: number
-
-    user = {
-        name: '',
-        email: '',
-        phone: ''
-    }
 
     showOverlay = true
 
@@ -27,7 +23,14 @@ export class UserEditModalComponent implements OnInit {
     @Output() onSuccess: EventEmitter<any> = new EventEmitter<any>()
     @Output() onError: EventEmitter<HttpErrorResponse> = new EventEmitter<HttpErrorResponse>()
 
-    constructor(private userHttp: UserHttpService, private toastr: ToastrService) { }
+    constructor(private userHttp: UserHttpService, private toastr: ToastrService,
+        private formBuilder: FormBuilder) {
+        this.form = this.formBuilder.group({
+            name: ['', [Validators.required]],
+            email: ['', [Validators.required]],
+            password: ''
+        })
+    }
 
     ngOnInit(): void {
     }
@@ -42,7 +45,7 @@ export class UserEditModalComponent implements OnInit {
                 .subscribe({
                     next: (response) => {
                         //@ts-ignore
-                        this.user = response
+                        this.form.patchValue(response)
                         this.showOverlay = false
                     },
                     error: (error) => {
@@ -54,7 +57,7 @@ export class UserEditModalComponent implements OnInit {
     }
 
     submit() {
-        this.userHttp.update(this._userId, this.user)
+        this.userHttp.update(this._userId, this.form.value)
             .subscribe({
                 next: (user) => {
                     this.onSuccess.emit(user)

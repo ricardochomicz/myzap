@@ -35,7 +35,7 @@ class Product extends Model
     {
         return $query->where(function ($query) use ($params) {
             $query->where('name', 'LIKE', "%{$params}%")
-                ->orWhere('active', $params);
+                ->orWhere('description', 'LIKE', "%{$params}%");
         });
     }
 }
